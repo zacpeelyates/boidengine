@@ -1,6 +1,7 @@
 #include "RenderWindow.h"
 #include "ShaderManager.h"
 #include "Utilities.h"
+#include "Boid.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -47,6 +48,7 @@ void RenderWindow::Update(float deltaTime)
 {
 	//Camera
 	Utilities::FreeMovement(m_cameraMatrix, deltaTime);
+	//Move Boids to new position
 
 }
 

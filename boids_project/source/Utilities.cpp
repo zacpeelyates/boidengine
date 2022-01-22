@@ -177,3 +177,19 @@ void Utilities::FreeMovement(glm::mat4& a_m4Transform, float a_fDeltaTime, float
 		sbMouse2ButtonDown = false;
 	}
 }
+
+glm::vec3 Utilities::GetRandomPosition(glm::vec3 a_min, glm::vec3 a_max)
+{
+	double x = GetRandomDouble(a_min.x, a_max.x);
+	double y = GetRandomDouble(a_min.y, a_max.y);
+	double z = GetRandomDouble(a_min.z, a_max.z);
+
+	return glm::vec3(x, y, z);
+}
+
+double Utilities::GetRandomDouble(double a_min, double a_max)
+{
+	return (a_max - a_min) * ((double)rand() / (double)RAND_MAX) + a_min;
+}
+
+

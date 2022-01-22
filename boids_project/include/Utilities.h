@@ -10,12 +10,10 @@
 #include <vector>
 #include <string>
 #include <glm.hpp>
+
 class Utilities
 {
 public:
-	//utilities for string parsing
-	static std::vector<std::string> SplitStringAtChar(std::string a_strData, char a_cDelimiter);
-	static bool ParseStringToInt(std::string& a_rStrIn);
 
 	//utilities for timing
 	static void  TimerReset();
@@ -29,5 +27,9 @@ public:
 
 	//camera movement utiltiy
 	static void FreeMovement(glm::mat4& a_m4Transform, float a_fDeltaTime = 1.0f / 60.0f, float a_fSpeed = 2.0f, const glm::vec3& a_v3Up = { 0,1,0 });
+
+	//random utilities
+	static glm::vec3 GetRandomPosition(glm::vec3 a_min, glm::vec3 a_max);
+	static double GetRandomDouble(double a_min, double a_max);
 };
 #endif // !__UTILITIES_H__

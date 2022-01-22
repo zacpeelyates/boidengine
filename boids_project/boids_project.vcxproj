@@ -12,7 +12,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Application.cpp" />
-    <ClCompile Include="source\boid.cpp" />
+    <ClCompile Include="source\Boid.cpp" />
+    <ClCompile Include="source\BoidManager.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\RenderWindow.cpp" />
     <ClCompile Include="source\ShaderManager.cpp" />
@@ -20,7 +21,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h" />
-    <ClInclude Include="include\boid.h" />
+    <ClInclude Include="include\Boid.h" />
+    <ClInclude Include="include\BoidManager.h" />
     <ClInclude Include="include\RenderWindow.h" />
     <ClInclude Include="include\ShaderManager.h" />
     <ClInclude Include="include\Utilities.h" />
