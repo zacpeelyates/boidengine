@@ -8,8 +8,6 @@
 
 #ifndef RENDERWINDOW_H
 #define RENDERWINDOW_H
-#include <map>
-#include <string>
 #include <vector>
 #include "Application.h"
 #include "glm.hpp"
@@ -18,9 +16,9 @@ class RenderWindow : public Application
 {
 public:
 	RenderWindow();
-	virtual ~RenderWindow();
+	~RenderWindow() override;
 
-	
+
 protected:
 	bool onCreate() override;
 	void Update(float deltaTime) override;
@@ -33,12 +31,13 @@ private:
 	glm::mat4 m_viewMatrix;
 	//programs
 	unsigned int m_shaderProgram;
+	glm::vec3 m_clearColor;
 
 
 	//member data structs
 	struct Vertex
 	{
-		glm::vec3 pos; 
+		glm::vec3 pos;
 		glm::vec4 color;
 	};
 
@@ -68,5 +67,6 @@ private:
 	};
 
 	float m_fov;
-	
+};
+
 #endif // RENDERWINDOW_H

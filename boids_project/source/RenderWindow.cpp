@@ -35,8 +35,8 @@ bool RenderWindow::onCreate()
 	m_projectionMatrix = glm::perspective(glm::radians(m_fov), (float)(m_windowWidth / m_windowHeight), 0.1f, 1000.0f);
 
 	//ui
-	vertexShader = ShaderManager::LoadShader("resource/shaders/boid_vertex.glsl", GL_VERTEX_SHADER);
-	fragmentShader = ShaderManager::LoadShader("resource/shaders/boid_fragment.glsl", GL_FRAGMENT_SHADER);
+	const int vertexShader = ShaderManager::LoadShader("resource/shaders/boid_vertex.glsl", GL_VERTEX_SHADER);
+	const int fragmentShader = ShaderManager::LoadShader("resource/shaders/boid_fragment.glsl", GL_FRAGMENT_SHADER);
 	m_shaderProgram = ShaderManager::CreateProgram(vertexShader, fragmentShader);
 
 	return true;
