@@ -25,7 +25,7 @@ ShaderManager* ShaderManager::CreateInstance()
 
 ShaderManager* ShaderManager::GetInstance() 
 {
-	return m_instance = nullptr ? CreateInstance() : m_instance;
+	return m_instance == nullptr ? CreateInstance() : m_instance;
 }
 
 void ShaderManager::DestroyInstance()
@@ -142,6 +142,7 @@ unsigned int ShaderManager::LoadShaderInternal(const char* a_filePath,unsigned i
 {
 	//get shader from file
 	char* source = Utilities::FileToBuffer(a_filePath);
+	if (source == nullptr) return -1;
 	GLuint shader = glCreateShader(a_type);
 	//set source buffer & compile 
 	glShaderSource(shader, 1, &source, NULL);
