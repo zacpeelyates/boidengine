@@ -15,6 +15,7 @@
     <ClCompile Include="deps\imgui\backends\imgui_impl_opengl3.cpp" />
     <ClCompile Include="deps\imgui\misc\cpp\imgui_stdlib.cpp" />
     <ClCompile Include="source\Application.cpp" />
+    <ClCompile Include="source\GameObject.cpp" />
     <ClCompile Include="source\GUIManager.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\RenderWindow.cpp" />
@@ -25,11 +26,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h" />
+    <ClInclude Include="include\Component.h" />
+    <ClInclude Include="include\GameObject.h" />
     <ClInclude Include="include\GUIManager.h" />
     <ClInclude Include="include\RenderWindow.h" />
     <ClInclude Include="include\ShaderManager.h" />
     <ClInclude Include="include\Texture.h" />
     <ClInclude Include="include\TextureManager.h" />
+    <ClInclude Include="include\Transform.h" />
     <ClInclude Include="include\Utilities.h" />
   </ItemGroup>
   <ItemGroup>
