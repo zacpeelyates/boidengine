@@ -9,8 +9,8 @@
 int main(int argc, char* argv[])
 {
 	//Main entry point of application
-	RenderWindow* modelApp = new RenderWindow();
-	modelApp->Run("Model Loader", 1280, 720, false);
-	delete modelApp;
+	RenderWindow* renderWindow = new RenderWindow();
+	renderWindow->Run("CT5037 Boid Engine", 1280, 720, false);
+	delete renderWindow;
 	return 0;
 }

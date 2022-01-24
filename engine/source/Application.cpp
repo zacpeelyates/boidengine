@@ -75,3 +75,5 @@ void Application::Run(const char* a_name, unsigned int a_width, unsigned int a_h
 	glfwDestroyWindow(m_window);
 	glfwTerminate();
 }
+
+

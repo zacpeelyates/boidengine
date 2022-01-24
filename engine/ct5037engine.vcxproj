@@ -12,8 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Application.cpp" />
-    <ClCompile Include="source\Boid.cpp" />
-    <ClCompile Include="source\BoidManager.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\RenderWindow.cpp" />
     <ClCompile Include="source\ShaderManager.cpp" />
@@ -21,8 +19,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h" />
-    <ClInclude Include="include\Boid.h" />
-    <ClInclude Include="include\BoidManager.h" />
     <ClInclude Include="include\RenderWindow.h" />
     <ClInclude Include="include\ShaderManager.h" />
     <ClInclude Include="include\Utilities.h" />
@@ -37,6 +33,7 @@
     <ProjectGuid>{c7f8ccc5-d5e0-4bc8-a69d-ce073a61d771}</ProjectGuid>
     <RootNamespace>boidsproject</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>engine_project</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">

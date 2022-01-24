@@ -1,7 +1,6 @@
 #include "RenderWindow.h"
 #include "ShaderManager.h"
 #include "Utilities.h"
-#include "Boid.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -18,6 +17,8 @@
 
 RenderWindow::RenderWindow() { m_fov = 90; }; //default fov 90
 RenderWindow::~RenderWindow() {}
+
+
 
 bool RenderWindow::onCreate()
 {
@@ -48,7 +49,6 @@ void RenderWindow::Update(float deltaTime)
 {
 	//Camera
 	Utilities::FreeMovement(m_cameraMatrix, deltaTime);
-	//Move Boids to new position
 
 }
 
