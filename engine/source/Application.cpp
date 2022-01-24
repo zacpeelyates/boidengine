@@ -1,6 +1,6 @@
 #include "Application.h"
 #include "Utilities.h"
-#include "ShaderManager.h"
+#include "GUIManager.h"
 
 #include <glad/glad.h>
 #include <glfw3.h>
@@ -46,6 +46,10 @@ bool Application::Create(const char* a_appName, unsigned int a_windowWidth, unsi
 		glfwTerminate();
 		return false;
 	}
+
+	//create manager instances
+	if(!GUIManager::CreateInstance()->Init(m_window)) return false;
+
 	return true;
 }
 
@@ -57,12 +61,16 @@ void Application::Run(const char* a_name, unsigned int a_width, unsigned int a_h
 		Utilities::TimerReset();
 		m_running = true;
 		glfwSetWindowAspectRatio(m_window, 16, 9);
+		GUIManager* gui = GUIManager::GetInstance();
+		
 		do
 		{
-
+			gui->NewFrame();
+			gui->ShowFrameData();
 			float deltaTime = Utilities::TimerTick();
 			Update(deltaTime);
 			Draw();
+			gui->Render();
 
 			glfwSwapBuffers(m_window);
 			glfwPollEvents();
@@ -71,9 +79,9 @@ void Application::Run(const char* a_name, unsigned int a_width, unsigned int a_h
 		Destroy();
 	}
 	//cleanup
-	ShaderManager::DestroyInstance();
 	glfwDestroyWindow(m_window);
 	glfwTerminate();
+	GUIManager::DestroyInstance();
 }
 
 

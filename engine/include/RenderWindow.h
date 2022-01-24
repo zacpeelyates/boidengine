@@ -25,14 +25,7 @@ protected:
 	void Draw() override;
 	void Destroy() override;
 private:
-	//matricies
-	glm::mat4 m_cameraMatrix;
-	glm::mat4 m_projectionMatrix;
-	glm::mat4 m_viewMatrix;
-	//programs
-	unsigned int m_shaderProgram;
-	glm::vec3 m_clearColor;
-
+	//data type structs
 
 	//member data structs
 	struct Vertex
@@ -66,7 +59,81 @@ private:
 		std::vector<Vertex> points;
 	};
 
+
+
+	//matricies
+	glm::mat4 m_cameraMatrix;
+	glm::mat4 m_projectionMatrix;
+	glm::mat4 m_viewMatrix;
+	//programs
+	unsigned int m_baseShaderProgram;
+	//editables
+	glm::vec3 m_clearColor;
 	float m_fov;
+	//Vertex  Objects
+	unsigned int m_baseVBO;
+	unsigned int m_skyboxVAO;
+	unsigned int m_skyboxVBO;
+
+
+	//data 
+	Line* m_lines;
+
+
+
+	float m_skyboxVertices[108] =
+	{
+		// positions          
+		-2.5f,  2.5f, -2.5f,
+		-2.5f, -2.5f, -2.5f,
+		 2.5f, -2.5f, -2.5f,
+
+		 2.5f, -2.5f, -2.5f,
+		 2.5f,  2.5f, -2.5f,
+		-2.5f,  2.5f, -2.5f,
+
+		-2.5f, -2.5f,  2.5f,
+		-2.5f, -2.5f, -2.5f,
+		-2.5f,  2.5f, -2.5f,
+
+		-2.5f,  2.5f, -2.5f,
+		-2.5f,  2.5f,  2.5f,
+		-2.5f, -2.5f,  2.5f,
+
+		 2.5f, -2.5f, -2.5f,
+		 2.5f, -2.5f,  2.5f,
+		 2.5f,  2.5f,  2.5f,
+
+		 2.5f,  2.5f,  2.5f,
+		 2.5f,  2.5f, -2.5f,
+		 2.5f, -2.5f, -2.5f,
+
+		-2.5f, -2.5f,  2.5f,
+		-2.5f,  2.5f,  2.5f,
+		 2.5f,  2.5f,  2.5f,
+
+		 2.5f,  2.5f,  2.5f,
+		 2.5f, -2.5f,  2.5f,
+		-2.5f, -2.5f,  2.5f,
+
+		-2.5f,  2.5f, -2.5f,
+		 2.5f,  2.5f, -2.5f,
+		 2.5f,  2.5f,  2.5f,
+
+		 2.5f,  2.5f,  2.5f,
+		-2.5f,  2.5f,  2.5f,
+		-2.5f,  2.5f, -2.5f,
+
+		-2.5f, -2.5f, -2.5f,
+		-2.5f, -2.5f,  2.5f,
+		 2.5f, -2.5f, -2.5f,
+
+		 2.5f, -2.5f, -2.5f,
+		-2.5f, -2.5f,  2.5f,
+		 2.5f, -2.5f,  2.5f
+	};
+
+
 };
 
 #endif // RENDERWINDOW_H
