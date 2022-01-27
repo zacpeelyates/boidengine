@@ -19,6 +19,7 @@ public:
 	void Rotate(glm::f32 a_degrees, glm::vec3 a_normalizedAxis) const { glm::rotate(m_worldMatrix, glm::radians(a_degrees), a_normalizedAxis); }
 	void Scale(glm::vec3 a_scale) const { glm::scale(m_worldMatrix, a_scale); }
 
+
 private:
 	glm::mat4 m_worldMatrix;
 };

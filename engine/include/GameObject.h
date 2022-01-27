@@ -14,7 +14,7 @@ public:
 
 	template<typename T> std::shared_ptr<T> AddComponent()
 	{
-		static_assert(std::is_base_of_v<Component, T>, "Object is not component!"); //ensure we are dealing with a component object
+		static_assert(std::is_base_of_v<Component, T>, "Object is not a component!"); //ensure we are dealing with a component object
 		for(auto& c : m_components) //check if we already have a component of this type
 		{
 			if (auto s = std::dynamic_pointer_cast<T>(c)) return s;
@@ -35,9 +35,9 @@ public:
 	}
 
 
-	void Init();
-	void Start();
-	void Update(float a_deltaTime);
+	virtual void Init();
+	virtual void Start();
+	virtual void Update(float a_deltaTime);
 
 protected:
 	std::vector<std::shared_ptr<Component>> m_components;

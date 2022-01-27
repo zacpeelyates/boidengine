@@ -14,7 +14,10 @@
     <ClCompile Include="deps\imgui\backends\imgui_impl_glfw.cpp" />
     <ClCompile Include="deps\imgui\backends\imgui_impl_opengl3.cpp" />
     <ClCompile Include="deps\imgui\misc\cpp\imgui_stdlib.cpp" />
+    <ClCompile Include="source\AABB.cpp" />
     <ClCompile Include="source\Application.cpp" />
+    <ClCompile Include="source\Boid.cpp" />
+    <ClCompile Include="source\BoxCollider.cpp" />
     <ClCompile Include="source\GameObject.cpp" />
     <ClCompile Include="source\GUIManager.cpp" />
     <ClCompile Include="source\main.cpp" />
@@ -25,7 +28,11 @@
     <ClCompile Include="source\Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\AABB.h" />
     <ClInclude Include="include\Application.h" />
+    <ClInclude Include="include\Boid.h" />
+    <ClInclude Include="include\BoxCollider.h" />
+    <ClInclude Include="include\Collider.h" />
     <ClInclude Include="include\Component.h" />
     <ClInclude Include="include\GameObject.h" />
     <ClInclude Include="include\GUIManager.h" />
@@ -78,15 +85,15 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(ProjectDir)build\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)intermediate\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)deps/imguizmo;$(SolutionDir)deps/imgui/misc/cpp;$(SolutionDir)deps/imgui/backends;$(SolutionDir)deps/imgui;$(SolutionDir)deps/stb;$(SolutionDir)deps/glfw/include/GLFW;$(ProjectDir)include;$(SolutionDir)deps/glfw/include;$(SolutionDir)deps/glm;$(SolutionDir)deps/glad/include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>$(SolutionDir)deps/imguizmo/libs/$(Configuration);$(SolutionDir)deps/imgui/libs/$(Configuration);$(SolutionDir)deps/glfw/libs/$(Configuration);$(SolutionDir)deps/glm/libs/$(Configuration);$(SolutionDir)deps/glad/libs/$(Configuration);$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <IncludePath>$(SolutionDir)deps/bullet/include;$(SolutionDir)deps/imguizmo;$(SolutionDir)deps/imgui/misc/cpp;$(SolutionDir)deps/imgui/backends;$(SolutionDir)deps/imgui;$(SolutionDir)deps/stb;$(SolutionDir)deps/glfw/include/GLFW;$(ProjectDir)include;$(SolutionDir)deps/glfw/include;$(SolutionDir)deps/glm;$(SolutionDir)deps/glad/include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(SolutionDir)deps/bullet/libs/$(Configuration);$(SolutionDir)deps/imguizmo/libs/$(Configuration);$(SolutionDir)deps/imgui/libs/$(Configuration);$(SolutionDir)deps/glfw/libs/$(Configuration);$(SolutionDir)deps/glm/libs/$(Configuration);$(SolutionDir)deps/glad/libs/$(Configuration);$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(ProjectDir)build\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)intermediate\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)deps/imguizmo;$(SolutionDir)deps/imgui/misc/cpp;$(SolutionDir)deps/imgui/backends;$(SolutionDir)deps/imgui;$(SolutionDir)deps/stb;$(SolutionDir)deps/glfw/include/GLFW;$(ProjectDir)include;$(SolutionDir)deps/glfw/include;$(SolutionDir)deps/glm;$(SolutionDir)deps/glad/include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>$(SolutionDir)deps/imguizmo/libs/$(Configuration);$(SolutionDir)deps/imgui/libs/$(Configuration);$(SolutionDir)deps/glfw/libs/$(Configuration);$(SolutionDir)deps/glm/libs/$(Configuration);$(SolutionDir)deps/glad/libs/$(Configuration);$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <IncludePath>$(SolutionDir)deps/bullet/include;$(SolutionDir)deps/imguizmo;$(SolutionDir)deps/imgui/misc/cpp;$(SolutionDir)deps/imgui/backends;$(SolutionDir)deps/imgui;$(SolutionDir)deps/stb;$(SolutionDir)deps/glfw/include/GLFW;$(ProjectDir)include;$(SolutionDir)deps/glfw/include;$(SolutionDir)deps/glm;$(SolutionDir)deps/glad/include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(SolutionDir)deps/bullet/libs/$(Configuration);$(SolutionDir)deps/imguizmo/libs/$(Configuration);$(SolutionDir)deps/imgui/libs/$(Configuration);$(SolutionDir)deps/glfw/libs/$(Configuration);$(SolutionDir)deps/glm/libs/$(Configuration);$(SolutionDir)deps/glad/libs/$(Configuration);$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

@@ -1,5 +1,6 @@
 #include "GameObject.h"
 
+
 void GameObject::Init()
 {
 	for(const auto& c : m_components)

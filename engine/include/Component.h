@@ -10,9 +10,8 @@ public:
 
 	virtual void Init() = 0;
 	virtual void Start() = 0;
-	virtual void Update() = 0;
-
-	protected:
+	virtual void Update(float a_deltaTime) = 0;
+protected:
 	GameObject* m_owner;
 
 };
