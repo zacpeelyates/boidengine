@@ -2,7 +2,6 @@
 #ifndef TRANSFORM_H
 #define TRANSFORM_H
 #include "glm.hpp"
-#include "ext.hpp"
 #include  "Component.h"
 
 enum MATRIX_ROW
@@ -37,25 +36,33 @@ public:
 	glm::vec3 GetScale();
 	glm::quat GetRotation();
 	glm::vec3 GetTranslation();
-	glm::vec3 GetSkew();
-	glm::vec4 GetPerspective();
 
 	void SetScale(glm::vec3 a_scale);
 	void SetRotation(glm::quat a_rotation);
 	void SetTranslation(glm::vec3 a_translation);
-	void SetSkew(glm::vec3 a_skew);
-	void SetPerspective(glm::vec4 a_perspective);
 
 private:
 	glm::mat4 m_worldMatrix;
 
 	struct MATRIX_DECOMPOSITION
 	{
+		//components
 		glm::vec3 scale;
 		glm::quat rotation;
 		glm::vec3 translation;
+		//not used in recomposition, needed for glm::decompose method
 		glm::vec3 skew;
 		glm::vec4 perspective;
+
+		glm::mat4 RecomposeMatrix()
+		{
+			glm::mat4 result = glm::mat4(1);
+
+			glm::translate(result, translation);
+			glm::scale(result, scale);
+			result *= glm::mat4_cast(rotation);
+			return result;
+		}
 	};
 
 	MATRIX_DECOMPOSITION m_decomposedMatrix;
