@@ -31,6 +31,4 @@ public:
 private:
 	glm::vec3 m_minPoint;
 	glm::vec3 m_maxPoint;
-
-
 };

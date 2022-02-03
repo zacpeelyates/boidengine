@@ -46,6 +46,11 @@
     <ClCompile Include="source\Boid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="include\Entity.cpp" />
+    <ClCompile Include="include\Transform.cpp" />
+    <ClCompile Include="source\Transform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Utilities.h">

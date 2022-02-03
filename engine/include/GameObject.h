@@ -5,19 +5,23 @@
 #include <vector>
 
 #include "Component.h"
+#include "Entity.h"
 
-class GameObject
+class Shader;
+
+class GameObject : public Entity
 {
 public:
 
 	GameObject() = default;
+	GameObject(bool a_bIsRenderable);
 
 	template<typename T> std::shared_ptr<T> AddComponent()
 	{
 		static_assert(std::is_base_of_v<Component, T>, "Object is not a component!"); //ensure we are dealing with a component object
-		for(auto& c : m_components) //check if we already have a component of this type
+		for(std::shared_ptr& c : m_components) //check if we already have a component of this type
 		{
-			if (auto s = std::dynamic_pointer_cast<T>(c)) return s;
+			if (std::shared_ptr<Component> s = std::dynamic_pointer_cast<T>(c)) return s;
 		}
 		//component is of new type
 		auto component = std::make_shared<T>(this);
@@ -27,20 +31,21 @@ public:
 
 	template<typename T> std::shared_ptr<T> GetComponent()
 	{
-		for (auto c : m_components)
+		for (std::shared_ptr<Component> c : m_components)
 		{
-			if (auto s = std::dynamic_pointer_cast<T>(c)) return s;
+			if (std::shared_ptr<T> s = std::dynamic_pointer_cast<T>(c)) return s;
 		}
 		return nullptr;
 	}
 
-
 	virtual void Init();
 	virtual void Start();
 	virtual void Update(float a_deltaTime);
+	virtual void Draw(Shader* a_pShader);
 
 protected:
 	std::vector<std::shared_ptr<Component>> m_components;
+	bool m_bRenderable;
 };
 
 #endif // GAMEOBJECT_H

@@ -7,3 +7,5 @@ Boid::Boid()
 	AddComponent<Transform>();
 	AddComponent<BoxCollider>();
 }
+
+//boid stuff here
