@@ -41,6 +41,9 @@ public:
 	void SetRotation(glm::quat a_rotation);
 	void SetTranslation(glm::vec3 a_translation);
 
+	//get matrix ref
+	inline glm::mat4& GetMatrix() { return m_worldMatrix; }
+
 private:
 	glm::mat4 m_worldMatrix;
 
