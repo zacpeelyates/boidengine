@@ -14,11 +14,9 @@
     <ClCompile Include="deps\imgui\backends\imgui_impl_glfw.cpp" />
     <ClCompile Include="deps\imgui\backends\imgui_impl_opengl3.cpp" />
     <ClCompile Include="deps\imgui\misc\cpp\imgui_stdlib.cpp" />
-    <ClCompile Include="include\Entity.cpp" />
     <ClCompile Include="include\Transform.cpp" />
     <ClCompile Include="source\AABB.cpp" />
     <ClCompile Include="source\Application.cpp" />
-    <ClCompile Include="source\Boid.cpp" />
     <ClCompile Include="source\BoxCollider.cpp" />
     <ClCompile Include="source\GameObject.cpp" />
     <ClCompile Include="source\GUIManager.cpp" />
@@ -33,12 +31,12 @@
   <ItemGroup>
     <ClInclude Include="include\AABB.h" />
     <ClInclude Include="include\Application.h" />
-    <ClInclude Include="include\Boid.h" />
     <ClInclude Include="include\BoxCollider.h" />
     <ClInclude Include="include\Collider.h" />
     <ClInclude Include="include\Component.h" />
     <ClInclude Include="include\GameObject.h" />
     <ClInclude Include="include\GUIManager.h" />
+    <ClInclude Include="include\ModelComponent.h" />
     <ClInclude Include="include\RenderWindow.h" />
     <ClInclude Include="include\ShaderManager.h" />
     <ClInclude Include="include\Texture.h" />

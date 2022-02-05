@@ -1,6 +1,5 @@
 
 #include "Transform.h"
-#include "gtx/matrix_decompose.hpp"
 
 glm::vec3 Transform::GetScale()
 {

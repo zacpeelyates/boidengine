@@ -2,6 +2,7 @@
 #ifndef TRANSFORM_H
 #define TRANSFORM_H
 #include "glm.hpp"
+#include "gtx/matrix_decompose.hpp"
 #include  "Component.h"
 
 enum MATRIX_ROW

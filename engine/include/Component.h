@@ -2,7 +2,8 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 class GameObject;
-class Component : Entity
+class Shader;
+class Component
 {
 public:
 
@@ -16,7 +17,7 @@ public:
 
 protected:
 	GameObject* m_owner;
-	inline GameObject* GetOwner() {return m_owner};
+	inline GameObject* GetOwner() { return m_owner; };
 
 };
 #endif // COMPONENT_H

@@ -43,10 +43,6 @@
     <ClCompile Include="source\BoxCollider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Boid.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="include\Entity.cpp" />
     <ClCompile Include="include\Transform.cpp" />
     <ClCompile Include="source\Transform.cpp">
       <Filter>Source Files</Filter>
@@ -92,7 +88,7 @@
     <ClInclude Include="include\AABB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Boid.h">
+    <ClInclude Include="include\ModelComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

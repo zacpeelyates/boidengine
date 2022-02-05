@@ -5,11 +5,10 @@
 #include <vector>
 
 #include "Component.h"
-#include "Entity.h"
 
 class Shader;
 
-class GameObject : public Entity
+class GameObject
 {
 public:
 
@@ -19,7 +18,7 @@ public:
 	template<typename T> std::shared_ptr<T> AddComponent()
 	{
 		static_assert(std::is_base_of_v<Component, T>, "Object is not a component!"); //ensure we are dealing with a component object
-		for(std::shared_ptr& c : m_components) //check if we already have a component of this type
+		for(std::shared_ptr<Component>& c : m_components) //check if we already have a component of this type
 		{
 			if (std::shared_ptr<Component> s = std::dynamic_pointer_cast<T>(c)) return s;
 		}
