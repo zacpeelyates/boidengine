@@ -11,6 +11,7 @@
 #include <vector>
 #include "Application.h"
 #include "glm.hpp"
+#include "OBJDatatypes.h"
 
 class RenderWindow : public Application
 {
@@ -24,10 +25,10 @@ protected:
 	void Update(float deltaTime) override;
 	void Draw() override;
 	void Destroy() override;
+	bool OBJSetup(std::string a_filename);
+
 private:
 	//data type structs
-
-	//member data structs
 	struct Vertex
 	{
 		glm::vec3 pos;
@@ -65,19 +66,28 @@ private:
 	glm::mat4 m_cameraMatrix;
 	glm::mat4 m_projectionMatrix;
 	glm::mat4 m_viewMatrix;
-	//programs
-	unsigned int m_baseShaderProgram;
+	//skybox
+	unsigned int m_skyboxID;
 	//editables
 	glm::vec3 m_clearColor;
 	float m_fov;
-	//Vertex  Objects
-	unsigned int m_baseVBO;
-	unsigned int m_skyboxVAO;
+	//shader programs
+	unsigned int m_lineProgram;
+	unsigned int m_skyboxProgram;
+	unsigned int m_objProgram;
+	//buffers
+	unsigned int m_lineVBO;
+	unsigned int m_objModelBuffer[2];
 	unsigned int m_skyboxVBO;
+	unsigned int m_skyboxVAO;
 
 
 	//data 
 	Line* m_lines;
+	unsigned int m_lineSize;
+	OBJModel* m_objModel;
+	glm::vec3 m_lightColor;
+
 
 
 

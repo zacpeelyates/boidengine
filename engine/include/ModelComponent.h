@@ -2,18 +2,20 @@
 #define MODEL_H
 
 #include "Component.h"
-class Model;
+class OBJModel;
 
 class ModelComponent : public Component
 {
 public:
-	ModelComponent(GameObject* a_owner) : Component(a_owner) {}
+	ModelComponent(GameObject* a_owner, OBJModel* a_data = nullptr) : Component(a_owner), m_modelData(a_data) {}
 	~ModelComponent() {};
 
-	 virtual void Draw(Shader* a_pShader);
-	 inline void SetModel(Model* a_pModel) {m_modelData = a_pModel};
+	 virtual void Draw(unsigned int a_shader);
+	 virtual void Update(float a_deltaTime);
+	 inline void SetModel(OBJModel* a_pModel) { m_modelData = a_pModel; };
+	 OBJModel* GetModel() { return m_modelData; };
 private:
-	Model* m_modelData;
+	OBJModel* m_modelData;
 
 };
 #endif //!Model

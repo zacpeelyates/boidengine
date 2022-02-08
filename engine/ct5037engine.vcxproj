@@ -14,6 +14,7 @@
     <ClCompile Include="deps\imgui\backends\imgui_impl_glfw.cpp" />
     <ClCompile Include="deps\imgui\backends\imgui_impl_opengl3.cpp" />
     <ClCompile Include="deps\imgui\misc\cpp\imgui_stdlib.cpp" />
+    <ClCompile Include="include\ModelComponent.cpp" />
     <ClCompile Include="include\Transform.cpp" />
     <ClCompile Include="source\AABB.cpp" />
     <ClCompile Include="source\Application.cpp" />
@@ -21,6 +22,7 @@
     <ClCompile Include="source\GameObject.cpp" />
     <ClCompile Include="source\GUIManager.cpp" />
     <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\ModelComponent.cpp" />
     <ClCompile Include="source\RenderWindow.cpp" />
     <ClCompile Include="source\ShaderManager.cpp" />
     <ClCompile Include="source\Texture.cpp" />
@@ -86,15 +88,15 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(ProjectDir)build\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)intermediate\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)deps/bullet/include;$(SolutionDir)deps/imguizmo;$(SolutionDir)deps/imgui/misc/cpp;$(SolutionDir)deps/imgui/backends;$(SolutionDir)deps/imgui;$(SolutionDir)deps/stb;$(SolutionDir)deps/glfw/include/GLFW;$(ProjectDir)include;$(SolutionDir)deps/glfw/include;$(SolutionDir)deps/glm;$(SolutionDir)deps/glad/include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>$(SolutionDir)deps/bullet/libs/$(Configuration);$(SolutionDir)deps/imguizmo/libs/$(Configuration);$(SolutionDir)deps/imgui/libs/$(Configuration);$(SolutionDir)deps/glfw/libs/$(Configuration);$(SolutionDir)deps/glm/libs/$(Configuration);$(SolutionDir)deps/glad/libs/$(Configuration);$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <IncludePath>$(SolutionDir)obj_loader/include;$(SolutionDir)deps/imguizmo;$(SolutionDir)deps/imgui/misc/cpp;$(SolutionDir)deps/imgui/backends;$(SolutionDir)deps/imgui;$(SolutionDir)deps/stb;$(SolutionDir)deps/glfw/include/GLFW;$(ProjectDir)include;$(SolutionDir)deps/glfw/include;$(SolutionDir)deps/glm;$(SolutionDir)deps/glad/include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(SolutionDir)obj_loader/libs/$(Configuration);$(SolutionDir)deps/imguizmo/libs/$(Configuration);$(SolutionDir)deps/imgui/libs/$(Configuration);$(SolutionDir)deps/glfw/libs/$(Configuration);$(SolutionDir)deps/glm/libs/$(Configuration);$(SolutionDir)deps/glad/libs/$(Configuration);$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(ProjectDir)build\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)intermediate\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)deps/bullet/include;$(SolutionDir)deps/imguizmo;$(SolutionDir)deps/imgui/misc/cpp;$(SolutionDir)deps/imgui/backends;$(SolutionDir)deps/imgui;$(SolutionDir)deps/stb;$(SolutionDir)deps/glfw/include/GLFW;$(ProjectDir)include;$(SolutionDir)deps/glfw/include;$(SolutionDir)deps/glm;$(SolutionDir)deps/glad/include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>$(SolutionDir)deps/bullet/libs/$(Configuration);$(SolutionDir)deps/imguizmo/libs/$(Configuration);$(SolutionDir)deps/imgui/libs/$(Configuration);$(SolutionDir)deps/glfw/libs/$(Configuration);$(SolutionDir)deps/glm/libs/$(Configuration);$(SolutionDir)deps/glad/libs/$(Configuration);$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <IncludePath>$(SolutionDir)obj_loader/include;$(SolutionDir)deps/imguizmo;$(SolutionDir)deps/imgui/misc/cpp;$(SolutionDir)deps/imgui/backends;$(SolutionDir)deps/imgui;$(SolutionDir)deps/stb;$(SolutionDir)deps/glfw/include/GLFW;$(ProjectDir)include;$(SolutionDir)deps/glfw/include;$(SolutionDir)deps/glm;$(SolutionDir)deps/glad/include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(SolutionDir)obj_loader/libs/$(Configuration);$(SolutionDir)deps/imguizmo/libs/$(Configuration);$(SolutionDir)deps/imgui/libs/$(Configuration);$(SolutionDir)deps/glfw/libs/$(Configuration);$(SolutionDir)deps/glm/libs/$(Configuration);$(SolutionDir)deps/glad/libs/$(Configuration);$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -106,7 +108,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glad.lib;imgui.lib;imguizmo.lib;glfw3.lib;glm_static.lib;glad.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>obj_loader.lib;glad.lib;imgui.lib;imguizmo.lib;glfw3.lib;glm_static.lib;glad.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -123,7 +125,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glad.lib;imgui.lib;imguizmo.lib;glfw3.lib;glm_static.lib;glad.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>obj_loader.lib;glad.lib;imgui.lib;imguizmo.lib;glfw3.lib;glm_static.lib;glad.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

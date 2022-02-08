@@ -40,7 +40,8 @@ public:
 	virtual void Init();
 	virtual void Start();
 	virtual void Update(float a_deltaTime);
-	virtual void Draw(Shader* a_pShader);
+	virtual void Draw(unsigned int a_shader);
+	static std::vector<GameObject*> s_GameObjects;
 
 protected:
 	std::vector<std::shared_ptr<Component>> m_components;

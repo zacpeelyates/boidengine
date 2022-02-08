@@ -1,0 +1,15 @@
+# Blender MTL File: 'None'
+# Material Count: 1
+
+newmtl lambert2
+Ns 179.999996
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd low-poly-bird\\source\\Sparrow_Low\\Sparrow_Low_lambert2_BaseColor.png
+map_Ns low-poly-bird\\source\\Sparrow_Low\\Sparrow_Low_lambert2_Roughness.png
+map_bump low-poly-bird\\source\\Sparrow_Low\\Sparrow_Low_lambert2_Metallic.png

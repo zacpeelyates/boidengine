@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.31727.386
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "engine_project", "engine\ct5037engine.vcxproj", "{C7F8CCC5-D5E0-4BC8-A69D-CE073A61D771}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "obj_loader", "obj_loader\obj_loader.vcxproj", "{CA5B5D42-7CDE-4A39-B92D-F83A431B517B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -15,6 +17,10 @@ Global
 		{C7F8CCC5-D5E0-4BC8-A69D-CE073A61D771}.Debug|x64.Build.0 = Debug|x64
 		{C7F8CCC5-D5E0-4BC8-A69D-CE073A61D771}.Release|x64.ActiveCfg = Release|x64
 		{C7F8CCC5-D5E0-4BC8-A69D-CE073A61D771}.Release|x64.Build.0 = Release|x64
+		{CA5B5D42-7CDE-4A39-B92D-F83A431B517B}.Debug|x64.ActiveCfg = Debug|x64
+		{CA5B5D42-7CDE-4A39-B92D-F83A431B517B}.Debug|x64.Build.0 = Debug|x64
+		{CA5B5D42-7CDE-4A39-B92D-F83A431B517B}.Release|x64.ActiveCfg = Release|x64
+		{CA5B5D42-7CDE-4A39-B92D-F83A431B517B}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
