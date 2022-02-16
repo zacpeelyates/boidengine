@@ -9,16 +9,17 @@ class Component;
 class GameObject
 {
 public:
+	virtual ~GameObject() = default;
 
-	GameObject() = default;
-	GameObject(bool a_bIsRenderable);
+	GameObject(bool a_bIsRenderable = true);
 
 	template<typename T> std::shared_ptr<T> AddComponent()
 	{
 		if (!std::is_base_of<Component, T>()) return nullptr; //early out 
 		for(std::shared_ptr<Component>& c : m_components) //check if we already have a component of this type
 		{
-			if (std::shared_ptr<Component> s = std::dynamic_pointer_cast<T>(c)) return s;
+			std::shared_ptr<T> s = std::dynamic_pointer_cast<T>(c);
+			if (s) return s;
 		}
 		//component is of new type
 		auto component = std::make_shared<T>(this);
@@ -55,7 +56,7 @@ public:
 
 protected:
 	std::vector<std::shared_ptr<Component>> m_components;
-	bool m_bRenderable;
+	bool m_bRenderable{};
 };
 
 #endif // GAMEOBJECT_H

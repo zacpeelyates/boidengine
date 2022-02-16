@@ -14,9 +14,6 @@
     <ClCompile Include="deps\imgui\backends\imgui_impl_glfw.cpp" />
     <ClCompile Include="deps\imgui\backends\imgui_impl_opengl3.cpp" />
     <ClCompile Include="deps\imgui\misc\cpp\imgui_stdlib.cpp" />
-    <ClCompile Include="include\BoidAI.cpp" />
-    <ClCompile Include="include\ModelComponent.cpp" />
-    <ClCompile Include="include\Transform.cpp" />
     <ClCompile Include="source\AABB.cpp" />
     <ClCompile Include="source\Application.cpp" />
     <ClCompile Include="source\BoxCollider.cpp" />

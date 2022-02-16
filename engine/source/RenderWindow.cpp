@@ -114,7 +114,7 @@ bool RenderWindow::onCreate()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	//create boid objects
-
+	CreateBoidAtRandomPosition();
 
 	return OBJSetup("default.obj");
 }
@@ -148,6 +148,11 @@ void RenderWindow::Update(float deltaTime)
 {
 	//Camera
 	Utilities::FreeMovement(m_cameraMatrix, deltaTime);
+
+	 for(GameObject* g : GameObject::s_GameObjects)
+	 {
+		 g->Update(deltaTime);
+	 }
 
 }
 
@@ -344,9 +349,12 @@ void RenderWindow::Draw()
  GameObject* RenderWindow::CreateBoidAtRandomPosition()
  {
 	 GameObject* boid = new GameObject();
-	 std::shared_ptr<Transform> t = boid->AddComponent<Transform>();
-	 t->SetTranslation(glm::ballRand(10)); //generate boid at random position
-	 std::shared_ptr<BoxCollider> boxCol = boid->AddComponent<BoxCollider>();
+	 const std::shared_ptr<Transform> t = boid->AddComponent<Transform>();
+	 t->SetTranslation(glm::vec3(1,2,3)); 
+	 const std::shared_ptr<BoxCollider> boxCol = boid->AddComponent<BoxCollider>();
 	 boxCol->Init();
+	 boid->Init();
+	 boid->Start();
+	 return boid;
  }
 

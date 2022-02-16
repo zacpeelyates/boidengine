@@ -11,8 +11,28 @@ public:
 	~Collider() {};
 	virtual bool CollisionCheck(std::shared_ptr<Collider> other) = 0;
 
+	void Init() override;
+	void Start() override;
+	void Update(float a_deltaTime) override;
+	void Draw(unsigned a_shader) override;
+
 private:
 	bool bIsTrigger;
 };
 
+inline void Collider::Init()
+{
+}
+
+inline void Collider::Start()
+{
+}
+
+inline void Collider::Update(float a_deltaTime)
+{
+}
+
+inline void Collider::Draw(unsigned a_shader)
+{
+}
 #endif //COLLDER_HL

@@ -38,4 +38,21 @@ void Transform::SetTranslation(glm::vec3 a_translation)
 	m_worldMatrix = m_decomposedMatrix.RecomposeMatrix();
 }
 
+void Transform::Start()
+{
+}
+
+void Transform::Update(float a_deltaTime)
+{
+}
+
+void Transform::Init()
+{
+
+}
+
+void Transform::Draw(unsigned a_shader)
+{
+}
+
 

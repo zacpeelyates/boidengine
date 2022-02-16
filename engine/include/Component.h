@@ -16,7 +16,7 @@ public:
 
 protected:
 	GameObject* m_owner;
-	inline GameObject* GetOwner() { return m_owner; };
+	inline GameObject* GetOwner() const { return m_owner; };
 	bool m_bIsRenderable; 
 
 };

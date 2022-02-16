@@ -4,7 +4,7 @@
 #include "Transform.h"
 #include "AABB.h"
 
-class BoxCollider : public Collider
+class BoxCollider final : public Collider
 {
 public: 
 	BoxCollider(GameObject* a_owner) : Collider(a_owner) {};

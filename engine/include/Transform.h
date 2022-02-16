@@ -18,9 +18,8 @@ enum MATRIX_ROW
 class Transform : public Component
 {
 public:
+
 	Transform(GameObject* a_owner) : Component(a_owner), m_worldMatrix(glm::mat4(1)),m_decomposedMatrix() {};
-	void Start() override = 0;
-	void Update(float a_deltaTime) override = 0;
 
 	inline glm::mat4 GetTransformMatrix() const { return m_worldMatrix; }
 	inline void SetTransformMatrix(glm::mat4 a_matrix) { m_worldMatrix = a_matrix; }
@@ -70,5 +69,10 @@ private:
 
 	MATRIX_DECOMPOSITION m_decomposedMatrix;
 	inline void UpdateDecomposition() { glm::decompose(m_worldMatrix, m_decomposedMatrix.scale, m_decomposedMatrix.rotation, m_decomposedMatrix.translation, m_decomposedMatrix.skew, m_decomposedMatrix.perspective); }
+public:
+	void Start() override;
+	void Update(float a_deltaTime) override;
+	void Init() override;
+	void Draw(unsigned a_shader) override;
 };
 #endif // TRANSFORM_H
