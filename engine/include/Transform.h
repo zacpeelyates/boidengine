@@ -15,7 +15,7 @@ enum MATRIX_ROW
 
 
 
-class Transform : Component
+class Transform : public Component
 {
 public:
 	Transform(GameObject* a_owner) : Component(a_owner), m_worldMatrix(glm::mat4(1)),m_decomposedMatrix() {};
@@ -29,7 +29,7 @@ public:
 	inline void Rotate(glm::f32 a_degrees, glm::vec3 a_normalizedAxis) const { glm::rotate(m_worldMatrix, glm::radians(a_degrees), a_normalizedAxis); }
 	inline void Scale(glm::vec3 a_scale) const { glm::scale(m_worldMatrix, a_scale); }
 
-	inline glm::vec3 GeRow(MATRIX_ROW a_row) { return m_worldMatrix[a_row]; }
+	inline glm::vec3 GetRow(MATRIX_ROW a_row) { return m_worldMatrix[a_row]; }
 	inline void SetRow(MATRIX_ROW a_row, glm::vec3 a_vec) { m_worldMatrix[a_row] = glm::vec4(a_vec, a_row == POS_VEC ? 1.0f : 0.0f); }
 
 	//decompositions

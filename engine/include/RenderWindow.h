@@ -9,9 +9,14 @@
 #ifndef RENDERWINDOW_H
 #define RENDERWINDOW_H
 #include <vector>
+#include <limits.h>
+#include <string>
 #include "Application.h"
 #include "glm.hpp"
-#include "OBJDatatypes.h"
+
+
+class OBJModel;
+class GameObject;
 
 class RenderWindow : public Application
 {
@@ -21,11 +26,14 @@ public:
 
 
 protected:
+	bool OBJSetup(std::string a_filename);
 	bool onCreate() override;
 	void Update(float deltaTime) override;
 	void Draw() override;
 	void Destroy() override;
-	bool OBJSetup(std::string a_filename);
+	GameObject* CreateBoidAtRandomPosition();
+
+
 
 private:
 	//data type structs
@@ -61,7 +69,6 @@ private:
 	};
 
 
-
 	//matricies
 	glm::mat4 m_cameraMatrix;
 	glm::mat4 m_projectionMatrix;
@@ -85,10 +92,8 @@ private:
 	//data 
 	Line* m_lines;
 	unsigned int m_lineSize;
-	OBJModel* m_objModel;
 	glm::vec3 m_lightColor;
-
-
+	OBJModel* m_objModel;
 
 
 	float m_skyboxVertices[108] =

@@ -2,7 +2,7 @@
 #define MODEL_H
 
 #include "Component.h"
-class OBJModel;
+#include "OBJDatatypes.h"
 
 class ModelComponent : public Component
 {
@@ -16,6 +16,7 @@ public:
 	 OBJModel* GetModel() { return m_modelData; };
 private:
 	OBJModel* m_modelData;
+
 
 };
 #endif //!Model

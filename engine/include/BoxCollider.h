@@ -14,7 +14,4 @@ public:
 
 protected:
 	AABB m_boundingBox;
-	Transform* m_transform;
-	
-
 };

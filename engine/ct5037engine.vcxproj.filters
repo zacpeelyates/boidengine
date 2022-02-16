@@ -51,6 +51,9 @@
     <ClCompile Include="source\ModelComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="include\BoidAI.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Utilities.h">
@@ -111,10 +114,22 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="resource\shaders\boid_fragment.glsl">
+    <None Include="resource\shaders\obj_fragment.glsl">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="resource\shaders\boid_vertex.glsl">
+    <None Include="resource\shaders\obj_vertex.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resource\shaders\skybox_fragment.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resource\shaders\skybox_vertex.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resource\shaders\ui_fragment.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resource\shaders\ui_vertex.glsl">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

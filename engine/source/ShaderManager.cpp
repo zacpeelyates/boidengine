@@ -10,7 +10,7 @@
 // File:	ShaderManager.cpp
 // Author: Zac Peel-Yates (s1703955)
 // Date Created: 21/01/22
-// Last Edited:  21/01/22
+// Last Edited:  10/02/22
 // Brief: Function implementations for singleton class that manages loading, storing and deleting shader references
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -38,14 +38,14 @@ void ShaderManager::DestroyInstance()
 }
 
 //functions
-unsigned int ShaderManager::CreateProgram(const int& a_vertexShader, const int& a_fragmentShader) 
+unsigned int ShaderManager::CreateProgram(const int& a_vertexShader, const int& a_fragmentShader, const int& a_computeShader) 
 {
 	//public static function to call internal program creation
 	ShaderManager* instance = ShaderManager::GetInstance();
-	return instance->CreateProgramInternal(a_vertexShader, a_fragmentShader);
+	return instance->CreateProgramInternal(a_vertexShader, a_fragmentShader,a_computeShader);
 }
 
-unsigned int ShaderManager::CreateProgramInternal(const int& a_vertexShader, const int& a_fragmentShader)
+unsigned int ShaderManager::CreateProgramInternal(const int& a_vertexShader, const int& a_fragmentShader, const int& a_computeShader)
 {
 	int result = GL_FALSE;
 
@@ -53,6 +53,7 @@ unsigned int ShaderManager::CreateProgramInternal(const int& a_vertexShader, con
 	unsigned int handle = glCreateProgram();
 	glAttachShader(handle, a_vertexShader);
 	glAttachShader(handle, a_fragmentShader);
+	if (a_computeShader != -1) glAttachShader(handle,a_computeShader);
 	//link shaders to program 
 	glLinkProgram(handle);
 	//check if program was created

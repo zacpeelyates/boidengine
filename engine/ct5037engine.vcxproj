@@ -14,6 +14,7 @@
     <ClCompile Include="deps\imgui\backends\imgui_impl_glfw.cpp" />
     <ClCompile Include="deps\imgui\backends\imgui_impl_opengl3.cpp" />
     <ClCompile Include="deps\imgui\misc\cpp\imgui_stdlib.cpp" />
+    <ClCompile Include="include\BoidAI.cpp" />
     <ClCompile Include="include\ModelComponent.cpp" />
     <ClCompile Include="include\Transform.cpp" />
     <ClCompile Include="source\AABB.cpp" />
@@ -47,8 +48,12 @@
     <ClInclude Include="include\Utilities.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="resource\shaders\boid_fragment.glsl" />
-    <None Include="resource\shaders\boid_vertex.glsl" />
+    <None Include="resource\shaders\obj_fragment.glsl" />
+    <None Include="resource\shaders\obj_vertex.glsl" />
+    <None Include="resource\shaders\skybox_fragment.glsl" />
+    <None Include="resource\shaders\skybox_vertex.glsl" />
+    <None Include="resource\shaders\ui_fragment.glsl" />
+    <None Include="resource\shaders\ui_vertex.glsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
