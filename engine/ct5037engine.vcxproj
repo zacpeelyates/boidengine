@@ -20,7 +20,6 @@
     <ClCompile Include="source\GameObject.cpp" />
     <ClCompile Include="source\GUIManager.cpp" />
     <ClCompile Include="source\main.cpp" />
-    <ClCompile Include="source\ModelComponent.cpp" />
     <ClCompile Include="source\RenderWindow.cpp" />
     <ClCompile Include="source\ShaderManager.cpp" />
     <ClCompile Include="source\Texture.cpp" />
@@ -36,7 +35,6 @@
     <ClInclude Include="include\Component.h" />
     <ClInclude Include="include\GameObject.h" />
     <ClInclude Include="include\GUIManager.h" />
-    <ClInclude Include="include\ModelComponent.h" />
     <ClInclude Include="include\RenderWindow.h" />
     <ClInclude Include="include\ShaderManager.h" />
     <ClInclude Include="include\Texture.h" />

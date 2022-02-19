@@ -19,7 +19,7 @@ class Transform : public Component
 {
 public:
 
-	Transform(GameObject* a_owner) : Component(a_owner), m_worldMatrix(glm::mat4(1)),m_decomposedMatrix() {};
+	Transform(GameObject* a_owner) : Component(a_owner), m_worldMatrix(glm::mat4(1.0f)), m_decomposedMatrix() { UpdateDecomposition(); };
 
 	inline glm::mat4 GetTransformMatrix() const { return m_worldMatrix; }
 	inline void SetTransformMatrix(glm::mat4 a_matrix) { m_worldMatrix = a_matrix; }
@@ -60,8 +60,8 @@ private:
 		{
 			glm::mat4 result = glm::mat4(1);
 
-			glm::translate(result, translation);
-			glm::scale(result, scale);
+			result = glm::translate(result, translation);
+			result = glm::scale(result, scale);
 			result *= glm::mat4_cast(rotation);
 			return result;
 		}

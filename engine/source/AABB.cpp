@@ -11,11 +11,11 @@ void AABB::Translate(glm::vec3 a_delta)
 	m_maxPoint += a_delta;
 }
 
-bool AABB::Intersects(AABB a_other)
+bool AABB::Intersects(AABB* a_other)
 {
-	if (m_maxPoint.x < a_other.m_minPoint.x || m_minPoint.x > a_other.m_maxPoint.x) return false;
-	if (m_maxPoint.y < a_other.m_minPoint.y || m_minPoint.y > a_other.m_maxPoint.y) return false;
-	if (m_maxPoint.z < a_other.m_minPoint.z || m_minPoint.z > a_other.m_maxPoint.z) return false;
+	if (m_maxPoint.x < a_other->m_minPoint.x || m_minPoint.x > a_other->m_maxPoint.x) return false;
+	if (m_maxPoint.y < a_other->m_minPoint.y || m_minPoint.y > a_other->m_maxPoint.y) return false;
+	if (m_maxPoint.z < a_other->m_minPoint.z || m_minPoint.z > a_other->m_maxPoint.z) return false;
 	return true;
 }
 

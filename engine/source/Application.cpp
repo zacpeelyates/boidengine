@@ -17,6 +17,8 @@
 
 bool Application::Create(const char* a_appName, unsigned int a_windowWidth, unsigned int a_windowHeight, bool a_fullscreen)
 {
+	//set random seed
+	srand(time(NULL));
 	//create application
 	if (!glfwInit()) return false;
 	m_windowWidth = a_windowWidth;

@@ -18,7 +18,7 @@
 glm::vec4 OBJGetVectorFromValue(const std::string a_strValue);
 bool OBJGetKeyValuePairFromLine(const std::string& a_rStrLine, std::string& a_rStrOutKey, std::string& a_rStrOutValue);
 
-OBJModel* OBJLoader::OBJProcess(const std::string& a_strFilePath, const bool a_bPrintComments)
+OBJModel* OBJLoader::OBJProcess(const std::string& a_strFilePath, const bool a_bPrintComments, const float a_scale)
 {
 	if (OBJProcessUtils::GetFileType(a_strFilePath) != "obj") 
 	{
@@ -182,13 +182,12 @@ OBJModel* OBJLoader::OBJProcess(const std::string& a_strFilePath, const bool a_b
 		}
 	}
 
-	float scale = 5.0f;
 	for (unsigned int i = 0; i < oLoadedData->GetMeshCount(); ++i)
 	{
 		for (OBJVertex& v : oLoadedData->GetMesh(i)->m_verts)
 		{
-			v.TranslatePosition(glm::vec3(0, -min.y, 0));//align base of object with Y axis ((translate each vertex down by minY)
-			v.SetPosition(v.GetPosition() *= scale/(max - min));
+			//v.TranslatePosition(glm::vec3(0, -min.y, 0));//align base of object with Y axis ((translate each vertex down by minY)
+			v.SetPosition(v.GetPosition() *= a_scale/(max - min));
 		}
 	}
 

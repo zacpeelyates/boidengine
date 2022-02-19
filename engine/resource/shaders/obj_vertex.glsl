@@ -9,14 +9,16 @@ out vec3 vertNormal;
 out vec2 vertUV;
 
 uniform mat4 ProjectionViewMatrix;
-uniform mat4 ModelMatrix;
 vec4 pos4;
+
+uniform mat4 matrixList[10];
 
 void main()
 {
     pos4 = vec4(position.xyz,1.0f);
 	vertUV = uvCoord;
 	vertNormal = normal;
-	vertPos = (ModelMatrix * pos4).xyz;
-	gl_Position = (ProjectionViewMatrix * ModelMatrix) * pos4;
+	mat4 InstanceMatrix = matrixList[gl_InstanceID];
+	vertPos = (InstanceMatrix * pos4).xyz;
+	gl_Position = (ProjectionViewMatrix * InstanceMatrix) * pos4;
 }

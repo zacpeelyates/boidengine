@@ -1,15 +1,63 @@
 # Blender MTL File: 'None'
-# Material Count: 1
+# Material Count: 5
 
-newmtl lambert2
+newmtl body
 Ns 179.999996
 Ka 1.000000 1.000000 1.000000
 Kd 1.000000 1.000000 1.000000
-Ks 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
-illum 1
-map_Kd low-poly-bird\\source\\Sparrow_Low\\Sparrow_Low_lambert2_BaseColor.png
-map_Ns low-poly-bird\\source\\Sparrow_Low\\Sparrow_Low_lambert2_Roughness.png
-map_bump low-poly-bird\\source\\Sparrow_Low\\Sparrow_Low_lambert2_Metallic.png
+illum 2
+map_Kd BodyColV2.jpg
+map_Ks BodySpec.jpg
+map_d  bodyAlhpaMapV1.jpg
+
+newmtl eye1
+Ns 179.999996
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd GullEyeB.jpg
+
+newmtl feet1
+Ns 179.999996
+Ka 1.000000 1.000000 1.000000
+Kd 0.646616 0.646616 0.646616
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd FootCol.jpg
+map_Ks FootSpec.jpg
+
+newmtl head
+Ns 179.999996
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd HeadColBa.jpg
+map_Ks HeadSpecB.jpg
+
+newmtl wing
+Ns 179.999996
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd WingColV2a.jpg
+map_Ks WingSpec.jpg
+map_d WingAlhpaMapV2.jpg

@@ -43,16 +43,8 @@
     <ClCompile Include="source\BoxCollider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\Transform.cpp" />
     <ClCompile Include="source\Transform.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="include\ModelComponent.cpp" />
-    <ClCompile Include="source\ModelComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="include\BoidAI.cpp">
-      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -93,9 +85,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\AABB.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ModelComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -29,7 +29,6 @@ uniform sampler2D DiffuseTexture;
 uniform sampler2D SpecularTexture;
 uniform sampler2D NormalTexture;
 
-
 void main()
 {
 	float gamma = 2.2;

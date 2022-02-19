@@ -2,37 +2,23 @@
 #define COLLIDER_H
 
 #include "Component.h"
+#include "Transform.h"
 #include <memory>
 
 class Collider : public Component
 {
-public: 
-	Collider(GameObject* a_owner,bool a_trigger = false) : Component(a_owner), bIsTrigger(a_trigger) {};
-	~Collider() {};
+public:
+	virtual ~Collider() {};
 	virtual bool CollisionCheck(std::shared_ptr<Collider> other) = 0;
+	Collider(GameObject* a_owner, bool a_trigger = false) : Component(a_owner), bIsTrigger(a_trigger), p_transform(nullptr) {};
 
-	void Init() override;
-	void Start() override;
-	void Update(float a_deltaTime) override;
-	void Draw(unsigned a_shader) override;
+	virtual void Init() override = 0;
+	virtual void Start() override = 0;
+	virtual void Update(float a_deltaTime) override = 0;
+	virtual void Draw(unsigned a_shader) override = 0;
 
-private:
+protected:
 	bool bIsTrigger;
+	Transform* p_transform;
 };
-
-inline void Collider::Init()
-{
-}
-
-inline void Collider::Start()
-{
-}
-
-inline void Collider::Update(float a_deltaTime)
-{
-}
-
-inline void Collider::Draw(unsigned a_shader)
-{
-}
-#endif //COLLDER_HL
+#endif //COLLDER_H

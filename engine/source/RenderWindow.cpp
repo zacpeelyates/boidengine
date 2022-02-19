@@ -13,6 +13,7 @@
 #include <BoxCollider.h>
 
 
+#define MAX_BOIDS 10
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // File:	RenderWindow.cpp
@@ -41,7 +42,7 @@ bool RenderWindow::onCreate()
 	m_clearColor = glm::vec3(0.95f, 0.45f, 0.75f);
 	glClearColor(m_clearColor.x,m_clearColor.y,m_clearColor.z,1.0f);
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 	glClearDepth(1.0);
 
 	//set viewport
@@ -114,7 +115,10 @@ bool RenderWindow::onCreate()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	//create boid objects
-	CreateBoidAtRandomPosition();
+	for (unsigned int i = 0; i < MAX_BOIDS; ++i)
+	{
+		CreateBoidAtRandomPosition();
+	}
 
 	return OBJSetup("default.obj");
 }
@@ -125,7 +129,7 @@ bool RenderWindow::onCreate()
 bool RenderWindow::OBJSetup(std::string a_filename)
 {
 	a_filename = "./resource/obj_models/" + a_filename;
-	m_objModel = OBJLoader::OBJProcess(a_filename,false);
+	m_objModel = OBJLoader::OBJProcess(a_filename,false,5);
 	if (m_objModel == nullptr) return false;
 
 	//handle textures
@@ -205,15 +209,10 @@ void RenderWindow::Draw()
 		glUseProgram(m_objProgram);
 		projectionViewMatrixUniformLocation = glGetUniformLocation(m_objProgram, "ProjectionViewMatrix");
 		//send pointer to location of matrix 
-
 		glUniformMatrix4fv(projectionViewMatrixUniformLocation, 1, false, glm::value_ptr(projectionViewMatrix));
+
 		for (int i = 0; i < m_objModel->GetMeshCount(); ++i)
 		{
-
-
-			int ModelMatrixUniformLocation = glGetUniformLocation(m_objProgram, "ModelMatrix");
-			glUniformMatrix4fv(ModelMatrixUniformLocation, 1, false, glm::value_ptr(m_objModel->GetWorldMatrix()));
-
 			int cameraPositionUniformLocation = glGetUniformLocation(m_objProgram, "camPos");
 			glUniform3fv(cameraPositionUniformLocation, 1, glm::value_ptr(m_cameraMatrix[3]));
 			OBJMesh* currentMesh = m_objModel->GetMesh(i);
@@ -298,9 +297,21 @@ void RenderWindow::Draw()
 			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(OBJVertex), (char*)0 + OBJVertex::Offsets::NORMAL); //vec3 normal
 			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(OBJVertex), (char*)0 + OBJVertex::Offsets::UVCOORD); //vec2 UVs
 
+			glm::mat4 matrixList[MAX_BOIDS];
+			//create list of positions for us to draw with glDrawElementsInstanced, means we only need to load the boid model once
+		
+			for (int i = 0; i < GameObject::s_GameObjects.size(); ++i)
+			{
+				matrixList[i] = GameObject::s_GameObjects[i]->GetComponent<Transform>()->GetMatrix();
+			}
+
+			int MatrixListUniformLocation = glGetUniformLocation(m_objProgram, "matrixList");
+			const GLfloat* data = glm::value_ptr(matrixList[0]);
+			glUniformMatrix4fv(MatrixListUniformLocation,GameObject::s_GameObjects.size(),false,data);
+
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_objModelBuffer[1]);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, currentMesh->m_indicies.size() * sizeof(unsigned int), currentMesh->m_indicies.data(), GL_STATIC_DRAW);
-			glDrawElementsInstanced(GL_TRIANGLES, currentMesh->m_indicies.size(), GL_UNSIGNED_INT, 0, 0);
+			glDrawElementsInstanced(GL_TRIANGLES, currentMesh->m_indicies.size(), GL_UNSIGNED_INT, 0, GameObject::s_GameObjects.size());
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -313,6 +324,7 @@ void RenderWindow::Draw()
 	}
 	
 	//draw skybox
+	glEnable(GL_CULL_FACE); //enable culling for skybox only
 	glUseProgram(m_skyboxProgram);
 	projectionViewMatrix = glm::mat4(glm::mat3(projectionViewMatrix)); //remove translation
 	projectionViewMatrixUniformLocation = glGetUniformLocation(m_skyboxProgram, "ProjectionViewMatrix");
@@ -326,11 +338,11 @@ void RenderWindow::Draw()
 	glDepthFunc(GL_LEQUAL);
 	glFrontFace(GL_CW);
 	glDrawArrays(GL_TRIANGLES, 0, 36); //108 floats in skyboxverticies/3 (each vertex is 3 floats)
+	glDisable(GL_CULL_FACE); //disable culling after draw call
 	glFrontFace(GL_CCW);
 	glDepthFunc(GL_LESS);
-	glBindVertexArray(0);
-	//release program
-	glUseProgram(0);
+	glBindVertexArray(0); //unbind
+	glUseProgram(0); //release program
 	
 }
 
@@ -350,9 +362,9 @@ void RenderWindow::Draw()
  {
 	 GameObject* boid = new GameObject();
 	 const std::shared_ptr<Transform> t = boid->AddComponent<Transform>();
-	 t->SetTranslation(glm::vec3(1,2,3)); 
+	 float radius = 10.0f;
+	 t->SetTranslation(glm::ballRand(radius) + glm::vec3(radius));
 	 const std::shared_ptr<BoxCollider> boxCol = boid->AddComponent<BoxCollider>();
-	 boxCol->Init();
 	 boid->Init();
 	 boid->Start();
 	 return boid;
