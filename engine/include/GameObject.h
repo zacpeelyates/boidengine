@@ -38,7 +38,6 @@ public:
 	}
 
 	virtual void Init();
-	virtual void Start();
 	virtual void Update(float a_deltaTime);
 	virtual void Draw(unsigned int a_shader);
 	static std::vector<GameObject*> s_GameObjects;

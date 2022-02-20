@@ -70,9 +70,8 @@ private:
 	MATRIX_DECOMPOSITION m_decomposedMatrix;
 	inline void UpdateDecomposition() { glm::decompose(m_worldMatrix, m_decomposedMatrix.scale, m_decomposedMatrix.rotation, m_decomposedMatrix.translation, m_decomposedMatrix.skew, m_decomposedMatrix.perspective); }
 public:
-	void Start() override;
-	void Update(float a_deltaTime) override;
-	void Init() override;
-	void Draw(unsigned a_shader) override;
+	void Update(float a_deltaTime) override {};
+	void Init() override {};
+	void Draw(unsigned a_shader) override {};
 };
 #endif // TRANSFORM_H

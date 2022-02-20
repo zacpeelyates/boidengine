@@ -16,6 +16,7 @@
     <ClCompile Include="deps\imgui\misc\cpp\imgui_stdlib.cpp" />
     <ClCompile Include="source\AABB.cpp" />
     <ClCompile Include="source\Application.cpp" />
+    <ClCompile Include="source\BoidBehaviour.cpp" />
     <ClCompile Include="source\BoxCollider.cpp" />
     <ClCompile Include="source\GameObject.cpp" />
     <ClCompile Include="source\GUIManager.cpp" />
@@ -30,6 +31,7 @@
   <ItemGroup>
     <ClInclude Include="include\AABB.h" />
     <ClInclude Include="include\Application.h" />
+    <ClInclude Include="include\BoidBehaviour.h" />
     <ClInclude Include="include\BoxCollider.h" />
     <ClInclude Include="include\Collider.h" />
     <ClInclude Include="include\Component.h" />

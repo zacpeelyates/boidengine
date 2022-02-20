@@ -13,7 +13,6 @@ public:
 	Collider(GameObject* a_owner, bool a_trigger = false) : Component(a_owner), bIsTrigger(a_trigger), p_transform(nullptr) {};
 
 	virtual void Init() override = 0;
-	virtual void Start() override = 0;
 	virtual void Update(float a_deltaTime) override = 0;
 	virtual void Draw(unsigned a_shader) override = 0;
 

@@ -18,14 +18,6 @@ void GameObject::Init()
 	}
 }
 
-void GameObject::Start()
-{
-	for (const std::shared_ptr<Component>& c : m_components)
-	{
-		c->Start();
-	}
-}
-
 void GameObject::Update(float a_deltaTime)
 {
 	for (const std::shared_ptr<Component>& c : m_components)

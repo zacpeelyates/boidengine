@@ -46,6 +46,10 @@
     <ClCompile Include="source\Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="include\BoidBehaviour.cpp" />
+    <ClCompile Include="source\BoidBehaviour.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Utilities.h">
@@ -85,6 +89,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\AABB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BoidBehaviour.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

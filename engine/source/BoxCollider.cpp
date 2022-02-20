@@ -20,11 +20,6 @@ void BoxCollider::Init()
 	m_boundingBox = new AABB(p_transform->GetTranslation(), 0.5f);
 }
 
-void BoxCollider::Start()
-{ 
-
-}
-
 void BoxCollider::Update(float deltaTime)
 {
 	m_boundingBox->SetOrigin(p_transform->GetTranslation());

@@ -12,7 +12,6 @@ public:
 	bool CollisionCheck(std::shared_ptr<Collider> a_other) override;
 
 	void Init() override;
-	void Start() override;
 	void Update(float deltaTime) override;
 	void Draw(unsigned int a_shader) override;
 

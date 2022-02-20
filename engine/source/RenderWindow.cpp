@@ -9,11 +9,14 @@
 #include <GLFW/glfw3.h>
 #include <glm.hpp>
 #include <ext.hpp>
+
+
 #include <Transform.h>
 #include <BoxCollider.h>
+#include "BoidBehaviour.h"
 
 
-#define MAX_BOIDS 10
+#define MAX_BOIDS 50
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // File:	RenderWindow.cpp
@@ -115,6 +118,7 @@ bool RenderWindow::onCreate()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	//create boid objects
+	BoidBehaviour::SetupForceList();
 	for (unsigned int i = 0; i < MAX_BOIDS; ++i)
 	{
 		CreateBoidAtRandomPosition();
@@ -362,11 +366,11 @@ void RenderWindow::Draw()
  {
 	 GameObject* boid = new GameObject();
 	 const std::shared_ptr<Transform> t = boid->AddComponent<Transform>();
-	 float radius = 10.0f;
-	 t->SetTranslation(glm::ballRand(radius) + glm::vec3(radius));
+	 float radius = MAX_BOIDS;
+	 t->SetTranslation(glm::ballRand(radius) + glm::vec3(0,radius,0));
 	 const std::shared_ptr<BoxCollider> boxCol = boid->AddComponent<BoxCollider>();
+	 const std::shared_ptr<BoidBehaviour> boidBrain = boid->AddComponent<BoidBehaviour>();
 	 boid->Init();
-	 boid->Start();
 	 return boid;
  }
 
