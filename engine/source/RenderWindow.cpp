@@ -16,7 +16,7 @@
 #include "BoidBehaviour.h"
 
 
-#define MAX_BOIDS 50
+#define MAX_BOIDS 24
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // File:	RenderWindow.cpp
@@ -52,7 +52,7 @@ bool RenderWindow::onCreate()
 	glViewport(0, 0, m_windowWidth, m_windowHeight);
 
 	//create camera and projection matrix
-	m_cameraMatrix = glm::inverse(glm::lookAt(glm::vec3(10, 10, 10), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)));
+	m_cameraMatrix = glm::inverse(glm::lookAt(glm::vec3(20, 20, 20), glm::vec3(0, 10, 0), glm::vec3(0, 1, 0)));
 	m_projectionMatrix = glm::perspective(glm::radians(m_fov), (float)(m_windowWidth / m_windowHeight), 0.1f, 1000.0f);
 
 	//set shader programs
@@ -155,7 +155,7 @@ bool RenderWindow::OBJSetup(std::string a_filename)
 void RenderWindow::Update(float deltaTime)
 {
 	//Camera
-	Utilities::FreeMovement(m_cameraMatrix, deltaTime);
+	Utilities::FreeMovement(m_cameraMatrix, deltaTime,10);
 
 	 for(GameObject* g : GameObject::s_GameObjects)
 	 {
@@ -366,7 +366,7 @@ void RenderWindow::Draw()
  {
 	 GameObject* boid = new GameObject();
 	 const std::shared_ptr<Transform> t = boid->AddComponent<Transform>();
-	 float radius = MAX_BOIDS;
+	 float radius =MAX_BOIDS/2.0f;
 	 t->SetTranslation(glm::ballRand(radius) + glm::vec3(0,radius,0));
 	 const std::shared_ptr<BoxCollider> boxCol = boid->AddComponent<BoxCollider>();
 	 const std::shared_ptr<BoidBehaviour> boidBrain = boid->AddComponent<BoidBehaviour>();

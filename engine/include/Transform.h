@@ -24,9 +24,9 @@ public:
 	inline glm::mat4 GetTransformMatrix() const { return m_worldMatrix; }
 	inline void SetTransformMatrix(glm::mat4 a_matrix) { m_worldMatrix = a_matrix; }
 
-	inline void Translate(glm::vec3 a_translation) const { glm::translate(m_worldMatrix, a_translation); }
-	inline void Rotate(glm::f32 a_degrees, glm::vec3 a_normalizedAxis) const { glm::rotate(m_worldMatrix, glm::radians(a_degrees), a_normalizedAxis); }
-	inline void Scale(glm::vec3 a_scale) const { glm::scale(m_worldMatrix, a_scale); }
+	inline void Translate(glm::vec3 a_translation) { m_worldMatrix = glm::translate(m_worldMatrix, a_translation); }
+	inline void Rotate(glm::f32 a_degrees, glm::vec3 a_normalizedAxis)  { m_worldMatrix = glm::rotate(m_worldMatrix, glm::radians(a_degrees), a_normalizedAxis); }
+	inline void Scale(glm::vec3 a_scale)  {m_worldMatrix = glm::scale(m_worldMatrix, a_scale); }
 
 	inline glm::vec3 GetRow(MATRIX_ROW a_row) { return m_worldMatrix[a_row]; }
 	inline void SetRow(MATRIX_ROW a_row, glm::vec3 a_vec) { m_worldMatrix[a_row] = glm::vec4(a_vec, a_row == POS_VEC ? 1.0f : 0.0f); }

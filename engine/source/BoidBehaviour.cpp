@@ -2,83 +2,84 @@
 #include "GameObject.h"
 #include <ext.hpp>
 
-float BoidForce::s_speed = 1.0f;
+float BoidBehaviour::s_speed = 1.0f;
+float BoidBehaviour::s_maxVelocity =3.0f;
 BoidForce* BoidBehaviour::s_head = nullptr;
+float Wander::s_jitter = 0.75f;
+float Wander::s_radius = 2.0f;
+float Wander::s_length = 4.0f;
 
 void BoidBehaviour::Init()
 {
-	p_transform = m_owner->GetComponent<Transform>().get();
+	p_transform = m_owner->GetComponent<Transform>().get(); //fake warning honest
+	data[BoidDataOffset::TARGET] = glm::vec3(0,0,0);
+	data[BoidDataOffset::WANDER] = glm::vec3(0);
 }
 
 void BoidBehaviour::SetupForceList()
 {
+	//todo make this not stupid LOL
 	if (s_head == nullptr) {
-		s_head = new Seek(false);
-		s_head->next = new Seek(true);
-		s_head->next->next = new Wander();
+		s_head = new Seek(false); //seek
+		//s_head->next = new Seek(true); //flee
+		//s_head->next->next = new Wander(); //wander
 	}
-}
+}	
 
 void BoidBehaviour::Update(float deltaTime)
 {
-	glm::vec3 target(10, 10, 10);
-	glm::vec3 data[ForceDataOffset::COUNT];
-	data[ForceDataOffset::POS] = p_transform->GetRow(MATRIX_ROW::POS_VEC);
-	data[ForceDataOffset::TARGET] = target;
-	data[ForceDataOffset::FWD] = p_transform->GetRow(MATRIX_ROW::FWD_VEC);
-	data[ForceDataOffset::UP] = p_transform->GetRow(MATRIX_ROW::UP_VEC);
-	data[ForceDataOffset::WANDERPOINT] = glm::vec3(0);
-	glm::vec3 totalForce(0);
+	//total forces for this frame
+	glm::vec3 totalForce(0); //calculate 
 	for (BoidForce* current = s_head; current != nullptr; current = current->next)
 	{
-		current->SetMembers(data);
-		totalForce += current->CalculateForce() * current->m_weight;
+		totalForce += current->CalculateForce(p_transform,data) * current->m_weight;
 	}
+	glm::vec3 clamp(s_maxVelocity, 0, s_maxVelocity);
+	m_velocity += glm::clamp(totalForce * deltaTime * s_speed, -clamp, clamp ) ;
 
-	m_velocity = totalForce - m_velocity;
-
-	glm::vec3 pos = p_transform->GetRow(MATRIX_ROW::POS_VEC);
+	if (m_velocity == glm::vec3(0)) return; //no velocity so no changes this frame
 	
-	pos += m_velocity * deltaTime;
+	glm::vec3 fwd = glm::normalize(m_velocity);
+	glm::vec3 right = glm::cross(fwd, p_transform->GetRow(UP_VEC));
+	glm::vec3 nextPos = p_transform->GetRow(MATRIX_ROW::POS_VEC) + m_velocity;
 
-	glm::vec3 fwd = m_velocity.length() > 0.0f ? glm::normalize(m_velocity) : m_velocity;
-	glm::vec3 right = glm::cross(fwd.length() > 0 ? fwd : p_transform->GetRow(MATRIX_ROW::FWD_VEC), p_transform->GetRow(MATRIX_ROW::UP_VEC));
-	
-	//update transform
+	//update matrix
+	p_transform->SetRow(MATRIX_ROW::POS_VEC, nextPos);
 	p_transform->SetRow(MATRIX_ROW::FWD_VEC, fwd);
 	p_transform->SetRow(MATRIX_ROW::RIGHT_VEC, right);
-	p_transform->SetRow(MATRIX_ROW::POS_VEC, pos);
-	//p_transform->SetRow(MATRIX_ROW::UP_VEC, up);
+
 }
 
-glm::vec3 Seek::CalculateForce() //Seek / Flee force
+//////////////////////////////// Seek/Flee ///////////////////////////////////////////////////////
+
+glm::vec3 Seek::CalculateForce(Transform* a_transform, glm::vec3* a_data) //Seek / Flee force
 {
-	glm::vec3 dir(m_pos - m_target);
-	if (dir.length() == 0) return dir; //early out
-	return glm::normalize(dir) * s_speed * (bFlee ? -1 : 1); //invert if fleeing
+	return CalculateForce(a_data[BoidDataOffset::TARGET], a_transform->GetRow(MATRIX_ROW::POS_VEC), m_bFlee);
 }
 
 glm::vec3 Seek::CalculateForce(glm::vec3 target, glm::vec3 pos, bool flee) //static implementation
 {
-	glm::vec3 dir(pos - target);
-	if (dir.length() == 0) return dir; //early out
-	return glm::normalize(dir) * s_speed * (flee ? -1 : 1); //invert if fleeing
+	glm::vec3 dir(target-pos);
+	if (glm::length(dir) == 0) return dir; //early out
+	return glm::normalize(dir) * (flee ? -1 : 1); //invert if fleeing
 }
 
-glm::vec3 Wander::CalculateForce()
-{
-	glm::vec3 origin = m_pos + (m_fwd * m_length);
-	glm::vec3 dir = glm::normalize(m_wanderPoint - origin) * m_radius;
-	m_wanderPoint = origin + dir + glm::sphericalRand(m_jitter);
+//////////////////////////////// Wander ///////////////////////////////////////////////////////
 
-	return Seek::CalculateForce(m_wanderPoint,m_pos,false);
+glm::vec3 Wander::CalculateForce(Transform* a_transform, glm::vec3* a_data) //wander force
+{
+	return CalculateForce(a_transform->GetRow(MATRIX_ROW::POS_VEC), a_transform->GetRow(MATRIX_ROW::FWD_VEC),
+											  a_data[BoidDataOffset::WANDER], s_length, s_radius, s_jitter);
 }
 
-glm::vec3 Wander::CalculateForce(const glm::vec3& pos,const glm::vec3& fwd, glm::vec3& wanderPoint, const float length, const float radius, const float jitter) //static implementation
+glm::vec3 Wander::CalculateForce(const glm::vec3& pos,const glm::vec3& fwd, glm::vec3& wanderPoint, 
+	const float length, const float radius, const float jitter) //static implementation
 {
+
 	glm::vec3 origin = pos + (fwd * length);
-	glm::vec3 dir = glm::normalize(wanderPoint - origin) * radius;
-	wanderPoint = origin + dir + glm::sphericalRand(jitter);
+	if (glm::length(wanderPoint) == 0.0f) wanderPoint = origin + glm::sphericalRand(radius); //make a wanderpoint if we dont have one (should only be called on first pass)
+	glm::vec3 dir = glm::normalize(wanderPoint - origin);
+	wanderPoint = origin + (dir * radius) + glm::sphericalRand(jitter);
 
 	return Seek::CalculateForce(wanderPoint, pos, false);
 }
