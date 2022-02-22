@@ -84,35 +84,28 @@ void GUIManager::NewFrame()
 	ImGui::NewFrame();
 	//new ImGuizmo frame
 	ImGuizmo::BeginFrame();
-	m_yOffset = PADDING;
+	GetInstance()->m_yOffset = PADDING;
 }
 
 void GUIManager::Render()
 {
-//IMUI render
-ImGui::Render();
-ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	//IMGUI render
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 void GUIManager::ShowFrameData()
-{
-	//show mouse position 
-	SetupNextWindow();
-	if (ImGui::Begin("Frame Data", &m_bShow, IMGUI_STATIC_INFO_FLAGS))
+{	
+	ImGuiIO& io = ImGui::GetIO();
+	ImGui::Text("FPS: %.1f (Frame Delay: %.3f ms)", io.Framerate, 1000 / io.Framerate);
+	if (ImGui::IsMousePosValid())
 	{
-		m_yOffset += PADDING + ImGui::GetWindowHeight();
-		ImGuiIO& io = ImGui::GetIO();
-		ImGui::Text("FPS: %.1f (Frame Delay: %.3f ms)", io.Framerate, 1000 / io.Framerate);
-		if (ImGui::IsMousePosValid())
-		{
-			ImGui::Text("MousePos: %1.f,%1.f", io.MousePos.x, io.MousePos.y);
-		}
-		else
-		{
-			ImGui::Text("MousePos: <offscreen>");
-		}
+		ImGui::Text("MousePos: %1.f,%1.f", io.MousePos.x, io.MousePos.y);
 	}
-	ImGui::End();
+	else
+	{
+		ImGui::Text("MousePos: <offscreen>");
+	}
 }
 
 void GUIManager::SetupNextWindow()
@@ -130,121 +123,75 @@ void GUIManager::SetupNextWindow()
 bool GUIManager::ShowFileLoader(std::string& input)
 {
 	//show file loading GUI element
-	bool b = false;
-	ImGuiIO& io = ImGui::GetIO();
-	SetupNextWindow();
-	if (ImGui::Begin("Load Model", &m_bShow, IMGUI_STATIC_INFO_FLAGS))
+	ImGui::InputText("Filename", &m_inputBuffer);
+	if (!m_inputBuffer.empty())
 	{
-		ImGui::InputText("Filename", &m_inputBuffer);
-		if (!m_inputBuffer.empty())
-		{
-			input = m_inputBuffer;
-		}
-
-		b = ImGui::Button("Load");
-		m_yOffset += PADDING + ImGui::GetWindowHeight();
-
+		input = m_inputBuffer;
 	}
-	ImGui::End();
-	return b;
+	return ImGui::Button("Load");
 }
 
 bool GUIManager::ShowLoadedFileList(std::vector<std::string> loadedFiles, std::string& selectedFile)
 {
-	//show list of loaded files
-	bool b = false;
-	ImGuiIO& io = ImGui::GetIO();
-	SetupNextWindow();
-	if (ImGui::Begin("Loaded Files", &m_bShow, IMGUI_STATIC_INFO_FLAGS))
+	for (int i = 0; i < loadedFiles.size(); ++i)
 	{
-		for (int i = 0; i < loadedFiles.size(); ++i)
+		bool selected = false;
+		if (ImGui::Selectable(loadedFiles[i].c_str(), &selected, ImGuiSelectableFlags_DontClosePopups, ImVec2(200, 15)))
 		{
-			bool selected = false;
-			if (ImGui::Selectable(loadedFiles[i].c_str(), &selected, ImGuiSelectableFlags_DontClosePopups, ImVec2(200, 15)))
+			if (selected)
 			{
-				if (selected)
-				{
-					selectedFile = loadedFiles[i];
-					b = true;
-				}
+				selectedFile = loadedFiles[i];
+				return true;
 			}
 		}
-		m_yOffset += PADDING + ImGui::GetWindowHeight();
 	}
-	ImGui::End();
-	return b;
+	return false;
 
 }
 
-bool GUIManager::ShowColorEditor(float* firstElement, std::string title, bool alpha)
+bool GUIManager::ShowColorEditor(float* firstElement, const bool alpha, const char* title)
 {
-	//show color editor, used to edit matrix starting at passed in float pointer
-	bool b = false;
-	SetupNextWindow();
-	if (ImGui::Begin(title.c_str(), &m_bShow, IMGUI_STATIC_INFO_FLAGS))
-	{
-		b = alpha ? ImGui::ColorEdit4(title.c_str(), firstElement) : ImGui::ColorEdit3(title.c_str(), firstElement);
-		m_yOffset += PADDING + ImGui::GetWindowHeight();
-	}
-	ImGui::End();
-	return b;
+	return alpha ? ImGui::ColorEdit4(title, firstElement) : ImGui::ColorEdit3(title, firstElement);
 }
 
-bool GUIManager::ShowSlider(float* valueToEdit, float a_min, float a_max, std::string title)
+bool GUIManager::ShowSlider(float* valueToEdit, const float a_min, const float a_max)
 {
-	//show slider element that edits valueToEdit between a specified min and max 
-	bool b = false;
-	SetupNextWindow();
-	if (ImGui::Begin(title.c_str(), &m_bShow, IMGUI_STATIC_INFO_FLAGS))
-	{
-		b = ImGui::SliderFloat(title.c_str(), valueToEdit, a_min, a_max);
-		m_yOffset += PADDING + ImGui::GetWindowHeight();
-	}
-	ImGui::End();
-	return b;
+	return ImGui::SliderFloat("##defaultSlider", valueToEdit, a_min, a_max);
 }
 
 bool GUIManager::ShowMatrixEditWindow(float matrixToEdit[16],const float viewMatrix[16],const float projectionMatrix[16])
-{
-	//create and display matrix editor component
+{	
 	bool b = false;
-	SetupNextWindow();
-	if (ImGui::Begin("Matrix Editor", &m_bShow, IMGUI_STATIC_INFO_FLAGS))
+	//store matrix in easier to edit arrays
+	float translation[3];
+	float rotation[3];
+	float scale[3];
+	ImGuizmo::DecomposeMatrixToComponents(matrixToEdit,translation,rotation,scale);
+
+	ImGui::Text("    X         Y         Z    "); //probably the worst possible way to do this but oh well
+
+	//show grid of float to edit arrays
+	if (ImGui::InputFloat3("Translation", translation,"%.3f", ImGuiInputTextFlags_EnterReturnsTrue))
 	{
-		//store matrix in easier to edit arrays
-		float translation[3];
-		float rotation[3];
-		float scale[3];
-		ImGuizmo::DecomposeMatrixToComponents(matrixToEdit,translation,rotation,scale);
-
-		ImGui::Text("    X         Y         Z    "); //probably the worst possible way to do this but oh well
-
-		//show grid of float to edit arrays
-		if (ImGui::InputFloat3("Translation", translation,"%.3f", ImGuiInputTextFlags_EnterReturnsTrue))
-		{
-			b = true;
-			m_operation = ImGuizmo::TRANSLATE;
+		b = true;
+		m_operation = ImGuizmo::TRANSLATE;
 			
-		}
-		if (ImGui::InputFloat3("Rotation", rotation, "%.3f", ImGuiInputTextFlags_EnterReturnsTrue))
-		{
-			b = true;
-			m_operation = ImGuizmo::ROTATE;
-		}
-		if (ImGui::InputFloat3("Scale", scale, "%.3f", ImGuiInputTextFlags_EnterReturnsTrue))
-		{
-			b = true;
-			m_operation = ImGuizmo::SCALE;
-		}
-
-		//if anything was edited, manipulate the matrix
-		if (b) {
-			ImGuizmo::RecomposeMatrixFromComponents(translation, rotation, scale, matrixToEdit);
-			ImGuizmo::Manipulate(viewMatrix, projectionMatrix, m_operation, m_mode, matrixToEdit);
-		}
-
-		m_yOffset += PADDING + ImGui::GetWindowHeight();
-		ImGui::End();
+	}
+	if (ImGui::InputFloat3("Rotation", rotation, "%.3f", ImGuiInputTextFlags_EnterReturnsTrue))
+	{
+		b = true;
+		m_operation = ImGuizmo::ROTATE;
+	}
+	if (ImGui::InputFloat3("Scale", scale, "%.3f", ImGuiInputTextFlags_EnterReturnsTrue))
+	{
+		b = true;
+		m_operation = ImGuizmo::SCALE;
+	}
+	//if anything was edited, manipulate the matrix
+	if (b)
+	{
+		ImGuizmo::RecomposeMatrixFromComponents(translation, rotation, scale, matrixToEdit);
+		ImGuizmo::Manipulate(viewMatrix, projectionMatrix, m_operation, m_mode, matrixToEdit);
 	}
 	return b;
 }
@@ -254,33 +201,27 @@ bool GUIManager::ShowMatrixEditGizmo(float matrixToEdit[16], const float viewMat
 	//click/drag matrix manipulation
 	ImGuiIO& io = ImGui::GetIO();
 	ImGuizmo::SetRect(0,0,io.DisplaySize.x,io.DisplaySize.y);
-	SetupNextWindow();
-	if(ImGui::Begin("Mode Toggles",&m_bShow,IMGUI_STATIC_INFO_FLAGS))
+	//toggle edit modes
+	if (ImGui::RadioButton("Translate", m_operation == ImGuizmo::TRANSLATE))
 	{
-		//toggle edit modes
-		if (ImGui::RadioButton("Translate", m_operation == ImGuizmo::TRANSLATE))
-		{
-			m_operation = ImGuizmo::TRANSLATE;
-		}
-		ImGui::SameLine();
-		if (ImGui::RadioButton("Rotate", m_operation == ImGuizmo::ROTATE))
-		{
-			m_operation = ImGuizmo::ROTATE;
-		}
-		ImGui::SameLine();
-		if (ImGui::RadioButton("Scale", m_operation == ImGuizmo::SCALE))
-		{
-			m_operation = ImGuizmo::SCALE;
-		}
-		m_yOffset += PADDING + ImGui::GetWindowHeight();
+		m_operation = ImGuizmo::TRANSLATE;
 	}
-	ImGui::End();
+	ImGui::SameLine();
+	if (ImGui::RadioButton("Rotate", m_operation == ImGuizmo::ROTATE))
+	{
+		m_operation = ImGuizmo::ROTATE;
+	}
+	ImGui::SameLine();
+	if (ImGui::RadioButton("Scale", m_operation == ImGuizmo::SCALE))
+		{
+		m_operation = ImGuizmo::SCALE;
+	}
 	//display and return manipulation gizmo
 	return ImGuizmo::Manipulate(viewMatrix, projectionMatrix, m_operation, m_mode, matrixToEdit);
 }
 
 
-void GUIManager::ShowViewEditGizmo(float* viewMatrix,float a_length)
+bool GUIManager::ShowViewEditGizmo(float* viewMatrix,float a_length)
 {
 	//display viewmatrix edit gizmo
 	int corner = 1;
@@ -288,7 +229,12 @@ void GUIManager::ShowViewEditGizmo(float* viewMatrix,float a_length)
 	ImVec2 size = ImVec2(100, 100);
 	ImVec2 windowPos = ImVec2((corner & 1) ? io.DisplaySize.x - (PADDING + size.x)  : PADDING, (corner & 2) ? io.DisplaySize.y - (PADDING + size.y) : PADDING);
 	ImGuizmo::ViewManipulate(viewMatrix, a_length, windowPos, size, ImColor(0.0f, 0.0f, 0.0f, 0.4f));
+	return true;
 }
+
+
+
+
 
 
 

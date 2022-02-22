@@ -3,24 +3,27 @@
 #include "Transform.h"
 #include <glm.hpp>
 #include <vector>
+#include <string>
 
 #ifndef BOID_BEHAVIOUR_H
-#define BOID_BEHAVIOUR_H
+#define BOID_BEHAVIOUR_HH
 
 class BoidForce
 {
 public:
-	BoidForce() : m_weight(1.0f) {};
+	BoidForce(std::string a_name) : m_weight(1.0f),m_name(a_name) {};
 	~BoidForce() { delete next; next = nullptr; }
 	virtual glm::vec3 CalculateForce(Transform* a_transform, glm::vec3* a_data, std::vector<GameObject*>* a_neighbourPointer) = 0;
 	BoidForce* next;
+
 	float m_weight;
+	std::string m_name;
 };
 
 class Seek : public BoidForce
 {
 public:
-	Seek(bool a_flee) : m_bFlee(a_flee) {};
+	Seek(bool a_flee) :  m_bFlee(a_flee), BoidForce(a_flee ? "Flee" : "Seek") {};
 	glm::vec3 CalculateForce(Transform* a_transform, glm::vec3* a_data, std::vector<GameObject*>* a_neighbourPointer) override;
 	static glm::vec3 CalculateForce(glm::vec3 target, glm::vec3 pos, bool flee);
 	bool m_bFlee;
@@ -29,7 +32,7 @@ public:
 class Wander : public BoidForce
 {
 public:
-	Wander() {};
+	Wander() : BoidForce("Wander") {};
 	glm::vec3 CalculateForce(Transform* a_transform, glm::vec3* a_data, std::vector<GameObject*>* a_neighbourPointer) override;
 	static glm::vec3 CalculateForce(const glm::vec3& a_pos, const glm::vec3& a_fwd, glm::vec3& a_wanderPoint,
 		const float length, const float radius, const float jitter);
@@ -42,13 +45,12 @@ protected:
 class Flock : public BoidForce
 {
 public:
-	Flock() {};
+	Flock() : BoidForce("Flock") {};
 	glm::vec3 CalculateForce(Transform* a_transform, glm::vec3* a_data, std::vector<GameObject*>* a_neighbourPointer) override;
 	static float s_neighbourhoodRaidus;
 	static float s_weightAlignment;
 	static float s_weightSeperation;
 	static float s_weightCohesion;
-
 };
 
 enum BoidDataOffset

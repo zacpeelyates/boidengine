@@ -63,17 +63,15 @@ void Application::Run(const char* a_name, unsigned int a_width, unsigned int a_h
 		Utilities::TimerReset();
 		m_running = true;
 		glfwSetWindowAspectRatio(m_window, 16, 9);
-		GUIManager* gui = GUIManager::GetInstance();
 		
 		do
 		{
-			gui->NewFrame();
-			gui->ShowFrameData();
+			GUIManager::NewFrame();
+			GUIManager::Execute(&GUIManager::ShowFrameData, "Frame Data");
 			float deltaTime = Utilities::TimerTick();
 			Update(deltaTime);
 			Draw();
-			gui->Render();
-
+			GUIManager::Render();
 			glfwSwapBuffers(m_window);
 			glfwPollEvents();
 

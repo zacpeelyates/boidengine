@@ -34,7 +34,6 @@ private:
 		unsigned int refCount;
 	};
 
-
 	std::map <std::string, TextureRef> m_TextureMap;
 
 	TextureManager() {};

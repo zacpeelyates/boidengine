@@ -4,6 +4,7 @@
 #include "obj_loader.h"
 #include "TextureManager.h"
 #include "GameObject.h"
+#include "GUIManager.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -157,11 +158,27 @@ void RenderWindow::Update(float deltaTime)
 	//Camera
 	Utilities::FreeMovement(m_cameraMatrix, deltaTime,10);
 
-	 for(GameObject* g : GameObject::s_GameObjects)
-	 {
-		 g->Update(deltaTime);
-	 }
-
+	//Objects
+	for(GameObject* g : GameObject::s_GameObjects)
+	{
+		g->Update(deltaTime);
+	}
+	
+	for (BoidForce* current = BoidBehaviour::s_head; current != nullptr; current = current->next)
+	{
+		Flock* f = dynamic_cast<Flock*>(current);
+		if (f != nullptr)
+		{
+			//get flock weights
+			GUIManager::Execute<float*, float, float>(&GUIManager::ShowSlider, &f->s_weightAlignment, 0, 2,"Alignment");
+			GUIManager::Execute<float*, float, float>(&GUIManager::ShowSlider, &f->s_weightSeperation, 0, 2,"Seperation");
+			GUIManager::Execute<float*, float, float>(&GUIManager::ShowSlider, &f->s_weightCohesion, 0, 2,"Cohesion");
+		}
+		else {
+			//current is not a flock 
+			GUIManager::Execute<float*, float, float>(&GUIManager::ShowSlider, &current->m_weight, 0, 2,current->m_name.c_str());
+		}
+	}
 }
 
 void RenderWindow::Draw() 
@@ -207,6 +224,8 @@ void RenderWindow::Draw()
 	int lightColor_location = glGetUniformLocation(m_objProgram, "lightColor");
 	glUniform4fv(lightColor_location, 1, glm::value_ptr(m_lightColor));
 
+
+
 	//draw OBJ model
 	if (m_objModel != nullptr)
 	{
@@ -215,16 +234,30 @@ void RenderWindow::Draw()
 		//send pointer to location of matrix 
 		glUniformMatrix4fv(projectionViewMatrixUniformLocation, 1, false, glm::value_ptr(projectionViewMatrix));
 
+
+		int cameraPositionUniformLocation = glGetUniformLocation(m_objProgram, "camPos");
+		glUniform3fv(cameraPositionUniformLocation, 1, glm::value_ptr(m_cameraMatrix[3]));
+
+		int kA_location = glGetUniformLocation(m_objProgram, "kA");
+		int kD_location = glGetUniformLocation(m_objProgram, "kD");
+		int kS_location = glGetUniformLocation(m_objProgram, "kS");
+		int nS_location = glGetUniformLocation(m_objProgram, "nS");
+		int TextureUniformLocation;
+		int MatrixListUniformLocation = glGetUniformLocation(m_objProgram, "matrixList");
+
+		glm::mat4 matrixList[MAX_BOIDS];
+		//create list of positions for us to draw with glDrawElementsInstanced, means we only need to load the boid model once
+		for (int i = 0; i < GameObject::s_GameObjects.size(); ++i)
+		{
+			matrixList[i] = GameObject::s_GameObjects[i]->GetComponent<Transform>()->GetMatrix();
+		}
+
+
 		for (int i = 0; i < m_objModel->GetMeshCount(); ++i)
 		{
-			int cameraPositionUniformLocation = glGetUniformLocation(m_objProgram, "camPos");
-			glUniform3fv(cameraPositionUniformLocation, 1, glm::value_ptr(m_cameraMatrix[3]));
 			OBJMesh* currentMesh = m_objModel->GetMesh(i);
 
-			int kA_location = glGetUniformLocation(m_objProgram, "kA");
-			int kD_location = glGetUniformLocation(m_objProgram, "kD");
-			int kS_location = glGetUniformLocation(m_objProgram, "kS");
-			int nS_location = glGetUniformLocation(m_objProgram, "nS");
+	
 			int lightPos_location = glGetUniformLocation(m_objProgram, "lightPos");
 			glUniform3fv(lightPos_location, 1, glm::value_ptr(lightPos));
 			int lightColor_location = glGetUniformLocation(m_objProgram, "lightColor");
@@ -245,7 +278,6 @@ void RenderWindow::Draw()
 
 
 				//textures
-				int TextureUniformLocation;
 				if (!currentMaterial->textureFileNames[OBJMaterial::DiffuseTexture].empty()) {
 					//diffuse
 					bUseDiffuse = true;
@@ -282,6 +314,7 @@ void RenderWindow::Draw()
 				glUniform3fv(kS_location, 1, glm::value_ptr(glm::vec3(0.25f)));
 				glUniform1f(nS_location, 1.0f);
 			}
+		
 			int TextureCheckUniformLocation = glGetUniformLocation(m_objProgram, "useNormal");
 			glUniform1i(TextureCheckUniformLocation, bUseNormal);
 			TextureCheckUniformLocation = glGetUniformLocation(m_objProgram, "useSpecular");
@@ -301,15 +334,6 @@ void RenderWindow::Draw()
 			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(OBJVertex), (char*)0 + OBJVertex::Offsets::NORMAL); //vec3 normal
 			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(OBJVertex), (char*)0 + OBJVertex::Offsets::UVCOORD); //vec2 UVs
 
-			glm::mat4 matrixList[MAX_BOIDS];
-			//create list of positions for us to draw with glDrawElementsInstanced, means we only need to load the boid model once
-		
-			for (int i = 0; i < GameObject::s_GameObjects.size(); ++i)
-			{
-				matrixList[i] = GameObject::s_GameObjects[i]->GetComponent<Transform>()->GetMatrix();
-			}
-
-			int MatrixListUniformLocation = glGetUniformLocation(m_objProgram, "matrixList");
 			const GLfloat* data = glm::value_ptr(matrixList[0]);
 			glUniformMatrix4fv(MatrixListUniformLocation,GameObject::s_GameObjects.size(),false,data);
 
