@@ -6,7 +6,7 @@
 #include <string>
 
 #ifndef BOID_BEHAVIOUR_H
-#define BOID_BEHAVIOUR_HH
+#define BOID_BEHAVIOUR_H
 
 class BoidForce
 {
