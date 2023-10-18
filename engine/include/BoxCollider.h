@@ -24,7 +24,7 @@ public:
 	void Init() override;
 	void Update(float deltaTime) override;
 	void Draw(unsigned int a_shader) override;
-	AABB* m_boundingBox;
+	AABB* m_boundingBox = nullptr;
 	
 };
 #endif // BOXCOLLIDER_H
