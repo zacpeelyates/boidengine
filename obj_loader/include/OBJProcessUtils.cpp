@@ -1,12 +1,14 @@
+// File: OBJProcessUtils.cpp
+// Author: Zac Peel-Yates (s1703955)
+// Date Created: 2022/02/16
+// Date Edited: 2022/05/26
+// ct5037boidengine
+// 
+// Description of class: OBJ processing helper functions
+
 #include "OBJProcessUtils.h"
 #include <sstream>
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// File:	OBJProcessUtils.cpp
-// Author: Zac Peel-Yates (s1703955)
-// Date Created: 30/09/21
-// Last Edited:  01/01/21
-// Brief: Helper functions for processing obj files
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 std::vector<std::string> OBJProcessUtils::SplitStringAtChar(std::string a_strData, char a_cDelimiter)
 {
 	//Splits a string at give char and returns a vector of all the parts 
@@ -28,22 +30,22 @@ bool OBJProcessUtils::ParseStringToInt(std::string& a_rStrIn)
 }
 
 //file information utility definitions
-std::string OBJProcessUtils::GetFileName(const std::string a_strFilePath)
+std::string OBJProcessUtils::GetFileName(const std::string& a_strFilePath)
 {
 	//returns the file name with no preceeding path or extention
-	int start = a_strFilePath.rfind('/')+1;
-	int size = a_strFilePath.rfind('.') - start;
+	const int start = a_strFilePath.rfind('/')+1;
+	const int size = a_strFilePath.rfind('.') - start;
 	return a_strFilePath.substr(start, size);
 	//fixed this it was silently making everything not work (was putting start, end instead of start,size)
 }
 
-std::string OBJProcessUtils::GetFileType(const std::string a_strFilePath)
+std::string OBJProcessUtils::GetFileType(const std::string& a_strFilePath)
 {
 	//returns the file extention with no preceeding name or path
 	return a_strFilePath.substr(a_strFilePath.rfind('.') + 1);
 }
 
-std::string OBJProcessUtils::GetFileDirectory(const std::string a_strFilePath)
+std::string OBJProcessUtils::GetFileDirectory(const std::string& a_strFilePath)
 {
 	//returns directory the file is contained in
 	return a_strFilePath.substr(0, a_strFilePath.rfind('/') + 1);

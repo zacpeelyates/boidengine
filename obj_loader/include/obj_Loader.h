@@ -1,10 +1,10 @@
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// File:	obj_Loader.h
+// File: obj_Loader.h
 // Author: Zac Peel-Yates (s1703955)
-// Date Created: 30/09/21
-// Last Edited:  01/01/21
-// Brief: Function definitions + member model map for OBJLoader.cpp 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Date Created: 2022/02/20
+// Date Edited: 2022/05/26
+// ct5037boidengine
+// 
+// Description of class: Declarations for loading functions
 
 #ifndef OBJ_LOADER_H
 #define OBJ_LOADER_H
@@ -12,9 +12,9 @@
 class OBJLoader {
 	public:
 
-		static OBJModel* OBJProcess(const std::string& a_strFilePath, const bool a_bPrintComments, const float a_scale = 1.0f);
+		static OBJModel* OBJProcess(const std::string& a_strFilePath, bool a_bPrintComments, float a_scale = 1.0f);
 	protected:
-		static bool OBJLoadMaterials(const std::string& a_strFilePath, OBJModel& a_roLoadedData, const bool a_bPrintComments);
+		static bool OBJLoadMaterials(const std::string& a_strFilePath, OBJModel& a_roLoadedData, bool a_bPrintComments);
 		static OBJFace ProcessFace(std::string a_faceData);
 		
 		

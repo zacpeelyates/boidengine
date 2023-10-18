@@ -1,3 +1,11 @@
+// File: obj_Loader.cpp
+// Author: Zac Peel-Yates (s1703955)
+// Date Created: 2022/02/20
+// Date Edited: 2022/05/26
+// ct5037boidengine
+// 
+// Description of class: Parses an .obj file (and any .mtl files it refs) and returns an OBJModel object
+
 
 #include "obj_loader.h"
 #include "OBJProcessUtils.h"
@@ -6,16 +14,8 @@
 #include <fstream>
 #include <glm.hpp>
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// File:	obj_Loader.cpp
-// Author: Zac Peel-Yates (s1703955)
-// Date Created: 30/09/21
-// Last Edited:  01/01/21
-// Brief: Parses an .obj file (and any .mtl files it refs) and returns an OBJModel object
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 //declare these here as they're only needed in this cpp file.
-glm::vec4 OBJGetVectorFromValue(const std::string a_strValue);
+glm::vec4 OBJGetVectorFromValue(std::string a_strValue);
 bool OBJGetKeyValuePairFromLine(const std::string& a_rStrLine, std::string& a_rStrOutKey, std::string& a_rStrOutValue);
 
 OBJModel* OBJLoader::OBJProcess(const std::string& a_strFilePath, const bool a_bPrintComments, const float a_scale)
@@ -27,7 +27,7 @@ OBJModel* OBJLoader::OBJProcess(const std::string& a_strFilePath, const bool a_b
 		return nullptr;
 	}
 	//setup
-	OBJModel* oLoadedData = new OBJModel();
+	auto oLoadedData = new OBJModel();
 	std::string line,key,value;
 	OBJMesh* currentMesh = nullptr;
 	std::vector<glm::vec3> vertexData, normalData;
@@ -57,7 +57,7 @@ OBJModel* OBJLoader::OBJProcess(const std::string& a_strFilePath, const bool a_b
 					}
 					else if (key == "g" || key == "o") //group/object, Blender treats them as identical so I will also
 					{
-						OBJGroup* g = new OBJGroup();
+						auto g = new OBJGroup();
 						g->name = value;
 						if (currentMesh != nullptr)
 						{
@@ -131,7 +131,7 @@ OBJModel* OBJLoader::OBJProcess(const std::string& a_strFilePath, const bool a_b
 							currentMesh->m_verts.push_back(currentVertex);
 						}
 						bool hasNormals = !normalData.empty();
-						for (unsigned int offset = 1; offset < (faceComponents.size() - 1); ++offset)
+						for (unsigned int offset = 1; offset < faceComponents.size() - 1; ++offset)
 						{
 							//add normal data
 							currentMesh->m_indicies.push_back(ci);
@@ -344,7 +344,7 @@ bool OBJLoader::OBJLoadMaterials(const std::string& a_strFilePath, OBJModel& a_r
 OBJFace OBJLoader::ProcessFace(std::string a_strFaceData)
 {
 	//contstructs an OBJ Face from input string, then return an OBJVertex containing relevant face information
-	std::vector<std::string> vertIndicies = OBJProcessUtils::SplitStringAtChar(a_strFaceData, '/');
+	const std::vector<std::string> vertIndicies = OBJProcessUtils::SplitStringAtChar(a_strFaceData, '/');
 	OBJFace face = { 0,0,0 };
 	face.posIndex = std::stoi(vertIndicies[0]);
 	if (vertIndicies.size() > 1) {
@@ -369,7 +369,7 @@ glm::vec4 OBJGetVectorFromValue(const std::string ac_strValue)
 	int i = 0;
 	for (std::string s; ss >> s; ++i)
 	{
-		((float*)(&outVertex))[i] = stof(s);
+		((float*)&outVertex)[i] = stof(s);
 	}
 	return outVertex;
 }
@@ -380,15 +380,15 @@ bool OBJGetKeyValuePairFromLine(const std::string& ac_rStrLine, std::string& a_r
 	if (ac_rStrLine.empty()) return false;
 
 	//get key
-	size_t keyFirst = ac_rStrLine.find_first_not_of("  \t\r\n");
+	const size_t keyFirst = ac_rStrLine.find_first_not_of("  \t\r\n");
 	if (keyFirst == std::string::npos) return false; //key was not valid
-	size_t keyLast = ac_rStrLine.find_first_of("   \t\r\n", keyFirst); //start search from keyfirst
+	const size_t keyLast = ac_rStrLine.find_first_of("   \t\r\n", keyFirst); //start search from keyfirst
 	a_rStrOutKey = ac_rStrLine.substr(keyFirst, keyLast - keyFirst);
 
 	//get value 
-	size_t valueFirst = ac_rStrLine.find_first_not_of("  \t\r\n", keyLast); //start search from where we left off 
+	const size_t valueFirst = ac_rStrLine.find_first_not_of("  \t\r\n", keyLast); //start search from where we left off 
 	if (valueFirst == std::string::npos) return false; //value was not valid
-	size_t valueLast = ac_rStrLine.find_last_not_of("  \t\r\n") + 1; //add one to get last character as method used is exclusive
+	const size_t valueLast = ac_rStrLine.find_last_not_of("  \t\r\n") + 1; //add one to get last character as method used is exclusive
 	a_rStrOutValue = ac_rStrLine.substr(valueFirst, valueLast - valueFirst);
 
 	return true;

@@ -1,11 +1,10 @@
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// File:	ShaderManager.cpp
+// File: ShaderManager.h
 // Author: Zac Peel-Yates (s1703955)
-// Date Created: 21/01/22
-// Last Edited:  10/02/22
-// Brief: Function definitions for singleton class that manages loading, storing and deleting shader references
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Date Created: 2022/02/16
+// Date Edited: 2022/05/26
+// ct5037boidengine
+// 
+// Description of class: Declarations for storing shaders and shader programs for OpenGL
 
 #ifndef SHADERMANAGER_H
 #define SHADERMANAGER_H
@@ -34,7 +33,7 @@ private:
 	std::map<std::string, unsigned int> m_programs;
 
 	unsigned int LoadShaderInternal(const char* a_strShaderFile, unsigned int a_eShaderType);
-	unsigned int CreateProgramInternal(const int& a_irVertexShader, const int& a_irFragmentShader, const int& a_computeShader);
+	static unsigned int CreateProgramInternal(const int& a_irVertexShader, const int& a_irFragmentShader, const int& a_computeShader);
 	void DeleteShaderInternal(unsigned int a_uiShaderID);
 	void DeleteProgramInternal(unsigned int a_uiProgramID);
 	

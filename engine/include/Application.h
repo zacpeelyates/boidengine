@@ -1,13 +1,10 @@
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// File:	Application.h
+// File: Application.h
 // Author: Zac Peel-Yates (s1703955)
-// Date Created: 21/01/22
-// Last Edited:  21/01/22
-// Brief: Virtual base class for applications. Function definitions and member variables used by all classes that inherit from this
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+// Date Created: 2022/01/24
+// Date Edited: 2022/05/26
+// ct5037boidengine
+// 
+// Description of class: Declarations for running GLFW Window
 
 #ifndef APPLICATION_H
 #define APPLICATION_H

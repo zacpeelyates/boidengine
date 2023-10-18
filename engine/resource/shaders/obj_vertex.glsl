@@ -11,7 +11,9 @@ out vec2 vertUV;
 uniform mat4 ProjectionViewMatrix;
 vec4 pos4;
 
-uniform mat4 matrixList[10];
+const int maxBoids = 250;
+
+uniform mat4 matrixList[maxBoids];
 
 void main()
 {

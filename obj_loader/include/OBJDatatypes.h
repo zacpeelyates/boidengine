@@ -1,12 +1,10 @@
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// File:	OBJDatatypes.cpp
+// File: OBJDatatypes.h
 // Author: Zac Peel-Yates (s1703955)
-// Date Created: 30/09/21
-// Last Edited:  01/01/21
-// Brief: Function definitions for various OBJ data classes
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+// Date Created: 2022/02/16
+// Date Edited: 2022/05/26
+// ct5037boidengine
+// 
+// Description of class: Declarations of various OBJ datatypes
 
 #ifndef OBJDATATYPES_H
 #define OBJDATATYPES_H
@@ -33,14 +31,14 @@ public:
 	OBJVertex();
 	~OBJVertex();
 	
-	glm::vec3 GetPosition();
+	glm::vec3 GetPosition() const;
 	void SetPosition(glm::vec3 a_v3New);
 	void TranslatePosition(glm::vec3 a_v3Delta);
 
-	glm::vec3 GetNormal();
+	glm::vec3 GetNormal() const;
 	void SetNormal(glm::vec3 a_v3New);
 
-	glm::vec2 GetTextureCoords();
+	glm::vec2 GetTextureCoords() const;
 	void SetTextureCoords(glm::vec2 a_v2New);
 
 
@@ -72,7 +70,7 @@ public:
 	float GetDensity(), GetDissolve(), GetSpecularExponent(), GetTransparency();
 	void SetDensity(float a_fIn), SetDissolve(float a_fIn), SetSpecularExponent(float a_fIn), SetTransparency(float a_fIn);
 
-	uint8_t GetIlluminationModel();
+	uint8_t GetIlluminationModel() const;
 	void SetIlluminationModel(uint8_t a_inUint);
 
 	enum TextureTypes
@@ -99,7 +97,7 @@ struct OBJMesh
 {
 	OBJMesh();
 	~OBJMesh();
-	glm::vec3 calculateFaceNormal(const unsigned int& a_indexA, const unsigned int& a_indexB, const unsigned int& a_indexC);
+	glm::vec3 calculateFaceNormal(const unsigned int& a_indexA, const unsigned int& a_indexB, const unsigned int& a_indexC) const;
 	void CalculateUnassignedFaceNormals();
 	std::vector<OBJVertex> m_verts;
 	std::vector<unsigned int> m_indicies;
@@ -126,12 +124,12 @@ public:
 	bool AddGroup(OBJGroup* ao_groupIn);
 	bool AddMaterial(OBJMaterial* a_oInMaterial);
 	void AddMesh(OBJMesh* a_InMesh);
-	unsigned int GetMeshCount();
-	OBJMesh* GetMesh(unsigned int index);
+	unsigned int GetMeshCount() const;
+	OBJMesh* GetMesh(unsigned int index) const;
 	OBJMaterial* GetMaterial(std::string a_name);
 	OBJMaterial* GetMaterial(unsigned int index);
-	unsigned int GetMaterialCount();
-    glm::mat4 GetWorldMatrix();
+	unsigned int GetMaterialCount() const;
+    glm::mat4 GetWorldMatrix() const;
 
 	void SetWorldMatrix(glm::mat4 a_inMatrix);
 

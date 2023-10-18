@@ -1,18 +1,18 @@
-#include "GUIManager.h"
-#include <imgui_stdlib.h>
-#include <imgui_impl_opengl3.h>
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// File:	GUIManager.cpp
+// File: GUIManager.cpp
 // Author: Zac Peel-Yates (s1703955)
-// Date Created: 03/01/22
-// Last Edited:  07/01/22
-// Brief: Singleton class implementation handling IMGUI and IMGUIZMO library usage. Draw UI to screen each frame.
+// Date Created: 2022/05/01
+// Date Edited: 2022/05/26
+// ct5037boidengine
+// 
+// Description of class: Singleton class implementation handling IMGUI and IMGUIZMO library usage. Draw UI to screen each frame.
 // May edit some values passed in if called UI element directly modifies values. Most UI elements return a bool
 // determining whether or not they were used / interacted with this frame, which can be used by the calling class
 // (see RenderWindow.cpp)
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#include "GUIManager.h"
+#include <imgui_impl_opengl3.h>
+#include <imgui_stdlib.h>
+
 
 const int GUIManager::PADDING = 10;
 GUIManager* GUIManager::m_instance = nullptr;
@@ -22,14 +22,17 @@ ImGuizmo::OPERATION GUIManager::m_operation = ImGuizmo::ROTATE;
 ImGuizmo::MODE GUIManager::m_mode = ImGuizmo::WORLD;
 
 //singleton pattern implementation 
-GUIManager* GUIManager::GetInstance()
+auto GUIManager::GetInstance() -> GUIManager*
 {
 	return m_instance == nullptr ? CreateInstance() : m_instance;
 }
 
-GUIManager* GUIManager::CreateInstance()
+auto GUIManager::CreateInstance() -> GUIManager*
 {
-	if (m_instance == nullptr) m_instance = new GUIManager();
+	if (m_instance == nullptr)
+	{
+		m_instance = new GUIManager();
+	}
 	return m_instance;
 }
 
@@ -45,9 +48,7 @@ void GUIManager::DestroyInstance()
 GUIManager::GUIManager()
 {
 	//default constructor, sets default values
-	m_yOffset = 0;
-	m_corner = 0;
-	m_bShow = false;
+
 
 	//setupimgui
 	ImGuizmo::Enable(true);
@@ -64,15 +65,21 @@ GUIManager::~GUIManager()
 }
 
 
-bool GUIManager::Init(GLFWwindow* window)
+auto GUIManager::Init(GLFWwindow* window) -> bool
 {
 	//imgui setup
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGui::StyleColorsDark();
 	//if setup failed return false 
-	if(!ImGui_ImplGlfw_InitForOpenGL(window, true)) return false;
-	if(!ImGui_ImplOpenGL3_Init("#version 400")) return false;
+	if (!ImGui_ImplGlfw_InitForOpenGL(window, true))
+	{
+		return false;
+	}
+	if (!ImGui_ImplOpenGL3_Init("#version 400"))
+	{
+		return false;
+	}
 	return true;
 }
 
@@ -84,19 +91,19 @@ void GUIManager::NewFrame()
 	ImGui::NewFrame();
 	//new ImGuizmo frame
 	ImGuizmo::BeginFrame();
-	GetInstance()->m_yOffset = PADDING;
+	m_instance->m_yOffset = PADDING;
+	m_instance->m_xOffset = PADDING;
 }
 
-void GUIManager::Render()
+void GUIManager::Render() //ImGUI render 
 {
-	//IMGUI render
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 void GUIManager::ShowFrameData()
-{	
-	ImGuiIO& io = ImGui::GetIO();
+{
+	const ImGuiIO& io = ImGui::GetIO();
 	ImGui::Text("FPS: %.1f (Frame Delay: %.3f ms)", io.Framerate, 1000 / io.Framerate);
 	if (ImGui::IsMousePosValid())
 	{
@@ -111,16 +118,22 @@ void GUIManager::ShowFrameData()
 void GUIManager::SetupNextWindow()
 {
 	//ensures next window to display doesn't overlap with other windows
-	ImGuiIO& io = ImGui::GetIO();
-	ImVec2 windowPos = ImVec2((m_corner & 1) ? io.DisplaySize.x - PADDING : PADDING, (m_corner & 2) ? io.DisplaySize.y - m_yOffset : m_yOffset);
-	ImVec2 windowPivot = ImVec2((m_corner & 1) ? 1.0f : 0.0f, (m_corner & 2) ? 1.0f : 0.0f);
+	const ImGuiIO& io = ImGui::GetIO();
+	if (m_yOffset + PADDING >= io.DisplaySize.y  )
+	{
+		//create additional column 
+		m_yOffset = 0;
+		m_xOffset += io.DisplaySize.x / m_columns;
+	}
+	const auto windowPos = ImVec2((m_corner & 1) != 0 ? io.DisplaySize.x - m_xOffset : m_xOffset,
+	                              (m_corner & 2) != 0 ? io.DisplaySize.y - m_yOffset : m_yOffset);
+	const auto windowPivot = ImVec2((m_corner & 1) != 0 ? 1.0F : 0.0F, (m_corner & 2) != 0 ? 1.0F : 0.0F);
 	ImGui::SetNextWindowPos(windowPos, ImGuiCond_Always, windowPivot);
-	ImGui::SetNextWindowBgAlpha(0.4f);
+	ImGui::SetNextWindowBgAlpha(0.4F);
 }
 
 
-
-bool GUIManager::ShowFileLoader(std::string& input)
+auto GUIManager::ShowFileLoader(std::string& input) -> bool
 {
 	//show file loading GUI element
 	ImGui::InputText("Filename", &m_inputBuffer);
@@ -131,51 +144,54 @@ bool GUIManager::ShowFileLoader(std::string& input)
 	return ImGui::Button("Load");
 }
 
-bool GUIManager::ShowLoadedFileList(std::vector<std::string> loadedFiles, std::string& selectedFile)
+auto GUIManager::ShowLoadedFileList(std::vector<std::string> loadedFiles, std::string& selectedFile) -> bool
 {
-	for (int i = 0; i < loadedFiles.size(); ++i)
+	for (auto& loadedFile : loadedFiles)
 	{
 		bool selected = false;
-		if (ImGui::Selectable(loadedFiles[i].c_str(), &selected, ImGuiSelectableFlags_DontClosePopups, ImVec2(200, 15)))
+		if (ImGui::Selectable(loadedFile.c_str(), &selected, ImGuiSelectableFlags_DontClosePopups, ImVec2(200, 15)))
 		{
 			if (selected)
 			{
-				selectedFile = loadedFiles[i];
+				selectedFile = loadedFile;
 				return true;
 			}
 		}
 	}
 	return false;
-
 }
 
-bool GUIManager::ShowColorEditor(float* firstElement, const bool alpha, const char* title)
+auto GUIManager::ShowColorEditor(float* firstElement, const bool alpha, const char* title) -> bool
 {
 	return alpha ? ImGui::ColorEdit4(title, firstElement) : ImGui::ColorEdit3(title, firstElement);
 }
 
-bool GUIManager::ShowSlider(float* valueToEdit, const float a_min, const float a_max)
+auto GUIManager::ShowSlider(float* valueToEdit, const float a_min, const float a_max) -> bool
 {
 	return ImGui::SliderFloat("##defaultSlider", valueToEdit, a_min, a_max);
 }
 
-bool GUIManager::ShowMatrixEditWindow(float matrixToEdit[16],const float viewMatrix[16],const float projectionMatrix[16])
-{	
+auto GUIManager::ShowSliderInt(int* valueToEdit, const int a_min, int a_max) -> bool
+{
+	return ImGui::SliderInt("##defaultSlider", valueToEdit, a_min, a_max);
+}
+
+auto GUIManager::ShowMatrixEditWindow(float matrixToEdit[16], const float viewMatrix[16], const float projectionMatrix[16])-> bool
+{
 	bool b = false;
 	//store matrix in easier to edit arrays
 	float translation[3];
 	float rotation[3];
 	float scale[3];
-	ImGuizmo::DecomposeMatrixToComponents(matrixToEdit,translation,rotation,scale);
+	ImGuizmo::DecomposeMatrixToComponents(matrixToEdit, translation, rotation, scale);
 
 	ImGui::Text("    X         Y         Z    "); //probably the worst possible way to do this but oh well
 
 	//show grid of float to edit arrays
-	if (ImGui::InputFloat3("Translation", translation,"%.3f", ImGuiInputTextFlags_EnterReturnsTrue))
+	if (ImGui::InputFloat3("Translation", translation, "%.3f", ImGuiInputTextFlags_EnterReturnsTrue))
 	{
 		b = true;
 		m_operation = ImGuizmo::TRANSLATE;
-			
 	}
 	if (ImGui::InputFloat3("Rotation", rotation, "%.3f", ImGuiInputTextFlags_EnterReturnsTrue))
 	{
@@ -191,16 +207,16 @@ bool GUIManager::ShowMatrixEditWindow(float matrixToEdit[16],const float viewMat
 	if (b)
 	{
 		ImGuizmo::RecomposeMatrixFromComponents(translation, rotation, scale, matrixToEdit);
-		ImGuizmo::Manipulate(viewMatrix, projectionMatrix, m_operation, m_mode, matrixToEdit);
+		Manipulate(viewMatrix, projectionMatrix, m_operation, m_mode, matrixToEdit);
 	}
 	return b;
 }
 
-bool GUIManager::ShowMatrixEditGizmo(float matrixToEdit[16], const float viewMatrix[16], const float projectionMatrix[16])
+auto GUIManager::ShowMatrixEditGizmo(float matrixToEdit[16], const float viewMatrix[16], const float projectionMatrix[16]) -> bool
 {
 	//click/drag matrix manipulation
-	ImGuiIO& io = ImGui::GetIO();
-	ImGuizmo::SetRect(0,0,io.DisplaySize.x,io.DisplaySize.y);
+	const ImGuiIO& io = ImGui::GetIO();
+	ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
 	//toggle edit modes
 	if (ImGui::RadioButton("Translate", m_operation == ImGuizmo::TRANSLATE))
 	{
@@ -213,28 +229,26 @@ bool GUIManager::ShowMatrixEditGizmo(float matrixToEdit[16], const float viewMat
 	}
 	ImGui::SameLine();
 	if (ImGui::RadioButton("Scale", m_operation == ImGuizmo::SCALE))
-		{
+	{
 		m_operation = ImGuizmo::SCALE;
 	}
 	//display and return manipulation gizmo
-	return ImGuizmo::Manipulate(viewMatrix, projectionMatrix, m_operation, m_mode, matrixToEdit);
+	return Manipulate(viewMatrix, projectionMatrix, m_operation, m_mode, matrixToEdit);
 }
 
 
-bool GUIManager::ShowViewEditGizmo(float* viewMatrix,float a_length)
+auto GUIManager::ShowViewEditGizmo(float* viewMatrix, float a_length) -> bool
 {
 	//display viewmatrix edit gizmo
-	int corner = 1;
-	ImGuiIO& io = ImGui::GetIO();
-	ImVec2 size = ImVec2(100, 100);
-	ImVec2 windowPos = ImVec2((corner & 1) ? io.DisplaySize.x - (PADDING + size.x)  : PADDING, (corner & 2) ? io.DisplaySize.y - (PADDING + size.y) : PADDING);
-	ImGuizmo::ViewManipulate(viewMatrix, a_length, windowPos, size, ImColor(0.0f, 0.0f, 0.0f, 0.4f));
+	const int corner = 1;
+	const ImGuiIO& io = ImGui::GetIO();
+	const auto size = ImVec2(100, 100);
+	const auto windowPos = ImVec2(io.DisplaySize.x - (PADDING + size.x), PADDING);
+	ImGuizmo::ViewManipulate(viewMatrix, a_length, windowPos, size, ImColor(0.0F, 0.0F, 0.0F, 0.4F));
 	return true;
 }
 
-
-
-
-
-
-
+auto GUIManager::ShowVectorEditor(float* valueToEdit) -> bool
+{
+	return ImGui::InputFloat3("##InvokedVecEdit", valueToEdit);
+}

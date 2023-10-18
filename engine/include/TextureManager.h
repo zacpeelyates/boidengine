@@ -1,11 +1,11 @@
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// File:	TextureManager.cpp
+// File: TextureManager.h
 // Author: Zac Peel-Yates (s1703955)
-// Date Created: 05/01/22
-// Last Edited:  09/01/22
-// Brief: Function definitions for singleton class that loads (loading implementation in Texture::Load()) and stores
-// texture IDs and a count of how many times they are referenced.
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Date Created: 2022/02/22
+// Date Edited: 2022/05/26
+// ct5037boidengine
+// 
+// Description of class: Declarations for handling texture data
+
 #ifndef TEXTUREMANAGER_H
 #define TEXTUREMANAGER_H
 #include <map>

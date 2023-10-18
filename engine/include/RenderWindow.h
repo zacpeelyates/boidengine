@@ -1,17 +1,17 @@
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// File:	RenderWindow.cpp
+// File: RenderWindow.h
 // Author: Zac Peel-Yates (s1703955)
-// Date Created: 21/01/22
-// Last Edited:  21/01/22
-// Brief: Function defenitions for RenderWindow (overrides Applications). Handles tracking and drawing model data with OpenGL
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Date Created: 2022/05/01
+// Date Edited: 2022/05/26
+// ct5037boidengine
+// 
+// Description of class: Main Application window for BoidEngine, extends Generic Application Window
 
 #ifndef RENDERWINDOW_H
 #define RENDERWINDOW_H
 #include <vector>
-#include <limits.h>
 #include <string>
 #include "Application.h"
+#include "Event.h"
 #include "glm.hpp"
 
 
@@ -24,6 +24,7 @@ class RenderWindow : public Application
 public:
 	RenderWindow();
 	~RenderWindow() override;
+	void onWindowResize(WindowResizeEvent* e);
 
 
 protected:
@@ -32,7 +33,7 @@ protected:
 	void Update(float deltaTime) override;
 	void Draw() override;
 	void Destroy() override;
-	GameObject* CreateBoidAtRandomPosition();
+	static GameObject* CreateBoidAtRandomPosition();
 
 
 
@@ -71,14 +72,15 @@ private:
 
 
 	//matricies
-	glm::mat4 m_cameraMatrix;
-	glm::mat4 m_projectionMatrix;
-	glm::mat4 m_viewMatrix;
+	glm::mat4 m_cameraMatrix{};
+	glm::mat4 m_projectionMatrix{};
+	glm::mat4 m_viewMatrix{};
 	//skybox
-	unsigned int m_skyboxID;
+	unsigned int m_skyboxID{};
 	//editables
 	glm::vec3 m_clearColor;
-	float m_fov;
+	float m_fov{90};
+	int numBoids;
 	//shader programs
 	unsigned int m_lineProgram;
 	unsigned int m_skyboxProgram;
@@ -89,14 +91,17 @@ private:
 	unsigned int m_skyboxVBO;
 	unsigned int m_skyboxVAO;
 
+	//gizmos
+	bool m_drawGizmos{true};
 
-	//data 
+	//data / editables
 	Line* m_lines;
 	unsigned int m_lineSize;
 	glm::vec3 m_lightColor;
 	OBJModel* m_objModel;
 
 
+	//there gotta be a better way of doing this but I copy pasted it from the skybox tutorial we were given
 	float m_skyboxVertices[108] =
 	{
 		// positions          

@@ -1,3 +1,11 @@
+// File: GameObject.h
+// Author: Zac Peel-Yates (s1703955)
+// Date Created: 2022/05/01
+// Date Edited: 2022/05/26
+// ct5037boidengine
+// 
+// Description of class: Gameobject declarations + functionality. Templated to allow new components to be attached at runtime. 
+
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 #include <memory>
@@ -9,9 +17,9 @@ class Component;
 class GameObject
 {
 public:
-	virtual ~GameObject() = default;
 
-	GameObject(bool a_bIsRenderable = true);
+	virtual ~GameObject() = default;
+	GameObject();
 
 	template<typename T> std::shared_ptr<T> AddComponent()
 	{
@@ -32,7 +40,7 @@ public:
 		if (!std::is_base_of<Component, T>()) return nullptr; //early out 
 		for (std::shared_ptr<Component> c : m_components)
 		{
-			if (std::shared_ptr<T> s = std::dynamic_pointer_cast<T>(c)) return s;
+			if (std::shared_ptr<T> s = std::dynamic_pointer_cast<T>(c)) return s; //return first component of type T
 		}
 		return nullptr;
 	}
@@ -48,14 +56,15 @@ public:
 		std::vector<T*> result;
 		for (GameObject* g : s_GameObjects)
 		{
-			if (T* t = std::dynamic_pointer_cast<T>(g)) result.push_back(t);
+			if (T* t = std::dynamic_pointer_cast<T>(g)) result.push_back(t); //add object of same type
 		}
 		return result;
 	}
 
+
+
 protected:
-	std::vector<std::shared_ptr<Component>> m_components;
-	bool m_bRenderable{};
+	std::vector<std::shared_ptr<Component>> m_components; //list of component pointers for this object
 };
 
 #endif // GAMEOBJECT_H

@@ -18,9 +18,12 @@
     <ClCompile Include="source\Application.cpp" />
     <ClCompile Include="source\BoidBehaviour.cpp" />
     <ClCompile Include="source\BoxCollider.cpp" />
+    <ClCompile Include="source\Dispatcher.cpp" />
     <ClCompile Include="source\GameObject.cpp" />
+    <ClCompile Include="source\Gizmos.cpp" />
     <ClCompile Include="source\GUIManager.cpp" />
     <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\Octree.cpp" />
     <ClCompile Include="source\RenderWindow.cpp" />
     <ClCompile Include="source\ShaderManager.cpp" />
     <ClCompile Include="source\Texture.cpp" />
@@ -35,8 +38,12 @@
     <ClInclude Include="include\BoxCollider.h" />
     <ClInclude Include="include\Collider.h" />
     <ClInclude Include="include\Component.h" />
+    <ClInclude Include="include\Dispatcher.h" />
+    <ClInclude Include="include\Event.h" />
     <ClInclude Include="include\GameObject.h" />
+    <ClInclude Include="include\Gizmos.h" />
     <ClInclude Include="include\GUIManager.h" />
+    <ClInclude Include="include\Octree.h" />
     <ClInclude Include="include\RenderWindow.h" />
     <ClInclude Include="include\ShaderManager.h" />
     <ClInclude Include="include\Texture.h" />

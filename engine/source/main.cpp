@@ -1,15 +1,17 @@
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // File: main.cpp
 // Author: Zac Peel-Yates (s1703955)
-// Date Created: 21/01/22
-// Last Edited:  21/01/22
-// Brief: Main entry point of application. 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Date Created: 2022/01/24
+// Date Edited: 2022/05/26
+// ct5037boidengine
+// 
+// Description of class: Main Entry Point of Application
+
 #include "RenderWindow.h"
-int main(int argc, char* argv[])
+
+auto main(int /*argc*/, char* /*argv*/[]) -> int
 {
 	//Main entry point of application
-	RenderWindow* renderWindow = new RenderWindow();
+	auto* renderWindow = new RenderWindow();
 	renderWindow->Run("CT5037 Boid Engine", 1280, 720, false);
 	delete renderWindow;
 	return 0;

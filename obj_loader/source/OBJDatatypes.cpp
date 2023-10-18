@@ -1,13 +1,15 @@
+// File: OBJDatatypes.cpp
+// Author: Zac Peel-Yates (s1703955)
+// Date Created: 2022/02/16
+// Date Edited: 2022/05/26
+// ct5037boidengine
+// 
+// Description of class: Function implementations for various OBJ data classes
+
 
 #include "OBJDatatypes.h"
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// File:	OBJDatatypes.cpp
-// Author: Zac Peel-Yates (s1703955)
-// Date Created: 30/09/21
-// Last Edited:  01/01/21
-// Brief: Function implementations for various OBJ data classes
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 //OBJmodel
 
@@ -22,15 +24,15 @@ bool OBJModel::AddGroup(OBJGroup* ao_groupIn)
 
 }
 
-unsigned int OBJModel::GetMeshCount()
+unsigned int OBJModel::GetMeshCount() const
 {
 	return m_meshes.size();
 }
 
 
-OBJMesh* OBJModel::GetMesh(unsigned int a_uiIndex)
+OBJMesh* OBJModel::GetMesh(unsigned int a_uiIndex) const
 {
-	unsigned int meshCount = m_meshes.size();
+	const unsigned int meshCount = m_meshes.size();
 	if (meshCount > 0 && a_uiIndex < meshCount)
 	{
 		return m_meshes[a_uiIndex];
@@ -40,7 +42,7 @@ OBJMesh* OBJModel::GetMesh(unsigned int a_uiIndex)
 
 OBJMaterial* OBJModel::GetMaterial(std::string a_name)
 {
-	auto mat = m_matMap.find(a_name);
+	const auto mat = m_matMap.find(a_name);
 	if (mat == m_matMap.end()) return nullptr;
 	return mat->second;
 }
@@ -54,12 +56,12 @@ OBJMaterial* OBJModel::GetMaterial(unsigned int index)
 
 }
 
-unsigned int OBJModel::GetMaterialCount()
+unsigned int OBJModel::GetMaterialCount() const
 {
 	return m_matMap.size();
 }
 
-glm::mat4 OBJModel::GetWorldMatrix()
+glm::mat4 OBJModel::GetWorldMatrix() const
 {
 	return m_worldMatrix;
 }
@@ -86,17 +88,17 @@ void OBJModel::AddMesh(OBJMesh* a_InMesh)
 
 //OBJVertex
 
-glm::vec3 OBJVertex::GetPosition()
+glm::vec3 OBJVertex::GetPosition() const
 {
 	return m_pos;
 }
 
-glm::vec3 OBJVertex::GetNormal()
+glm::vec3 OBJVertex::GetNormal() const
 {
 	return m_normal;
 }
 
-glm::vec2 OBJVertex::GetTextureCoords()
+glm::vec2 OBJVertex::GetTextureCoords() const
 {
 	return m_uvCoord;
 }
@@ -134,19 +136,19 @@ bool OBJVertex::operator<(const OBJVertex& a_oOther) const
 
 //OBJMesh
 
-glm::vec3 OBJMesh::calculateFaceNormal(const unsigned int& a_indexA, const unsigned int& a_indexB, const unsigned int& a_indexC)
+glm::vec3 OBJMesh::calculateFaceNormal(const unsigned int& a_indexA, const unsigned int& a_indexB, const unsigned int& a_indexC) const
 {
-	glm::vec3 a = m_verts[a_indexA].GetPosition();
-	glm::vec3 b = m_verts[a_indexB].GetPosition();
-	glm::vec3 c = m_verts[a_indexC].GetPosition();
+	const glm::vec3 a = m_verts[a_indexA].GetPosition();
+	const glm::vec3 b = m_verts[a_indexB].GetPosition();
+	const glm::vec3 c = m_verts[a_indexC].GetPosition();
 
-	return glm::cross(glm::normalize(b - c), glm::normalize(c - a));
+	return cross(normalize(b - c), normalize(c - a));
 }
 void OBJMesh::CalculateUnassignedFaceNormals()
 {
 	for (unsigned int i = 0; i < m_indicies.size(); i += 3)
 	{
-		glm::vec3 n = calculateFaceNormal(i, i + 1, i + 2);
+		const glm::vec3 n = calculateFaceNormal(i, i + 1, i + 2);
 		m_verts[i].SetNormal(n);
 		m_verts[i+1].SetNormal(n);
 		m_verts[i+2].SetNormal(n);
@@ -235,7 +237,7 @@ void OBJMaterial::SetSpecularExponent(float a_fIn)
 	specularExponent = a_fIn;
 }
 
-uint8_t OBJMaterial::GetIlluminationModel()
+uint8_t OBJMaterial::GetIlluminationModel() const
 {
 	return illumModel;
 }
