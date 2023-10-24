@@ -468,7 +468,7 @@ auto RenderWindow::CreateBoidAtRandomPosition() -> GameObject*
 	auto* const boid = new GameObject();
 	const std::shared_ptr<Transform> t = boid->AddComponent<Transform>();
 	const float radius = 75.0f;
-	t->SetTranslation(glm::ballRand(radius) + glm::vec3(0, radius, 0));
+	t->SetTranslation(glm::ballRand(radius));
 	boid->AddComponent<BoxCollider>();
 	boid->AddComponent<BoidBehaviour>();
 	boid->Init();
